@@ -42,10 +42,10 @@ function ExpenseForm({ initialData, onSuccess }) {
   const lastCategoryId = localStorage.getItem('lastExpenseCategoryId');
   
   const form = useForm<ExpenseInput>({
-    resolver: zodResolver(expenseSchema),
+    resolver: zodResolver(createExpenseSchema(categories ?? [])),
     defaultValues: {
       amount: '',
-      date: todayISO(),           // YYYY-MM-DD
+      date: todayISO(),           // YYYY-MM-DD (local date, not UTC)
       type: 'variable',           // default per backend (§7.4: defaults to today, type required)
       category_id: initialData?.category_id ?? 
                    Number(lastCategoryId) ?? 
@@ -86,18 +86,22 @@ function ExpenseForm({ initialData, onSuccess }) {
 ### 3. Zod Schema (`lib/schemas.ts`)
 
 ```typescript
-export const expenseSchema = z.object({
-  amount: z.number().positive('Amount must be positive').max(999999.99),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(), // YYYY-MM-DD
-  type: z.enum(['fixed', 'variable']),
-  category_id: z.number().int().positive(),
-}).refine(
-  (data) => categories.some(c => c.id === data.category_id),
-  { message: 'Invalid category', path: ['category_id'] }
-);
+// Factory function — categories come from a runtime query, not module scope
+export const createExpenseSchema = (categories: Category[]) =>
+  z.object({
+    amount: z.number().positive('Amount must be positive').max(999999.99),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(), // YYYY-MM-DD
+    type: z.enum(['fixed', 'variable']),
+    category_id: z.number().int().positive(),
+  }).refine(
+    (data) => categories.some(c => c.id === data.category_id),
+    { message: 'Invalid category', path: ['category_id'] }
+  );
 ```
 
 > **Client-only validation:** `category_id` refine checks against currently loaded `GET /categories`. Server 422 catches stale-list case (category soft-deleted since load).
+>
+> **Note:** Schema is a factory function (`createExpenseSchema(categories)`) because `categories` comes from a `useQuery` hook at runtime. A static export would either throw `ReferenceError` on import or close over an empty/undefined array.
 
 ### 4. Two-Button Submit Pattern
 
@@ -108,7 +112,19 @@ export const expenseSchema = z.object({
 
 - `lastUsedCategoryId` persisted to `localStorage` (`lastExpenseCategoryId`) on every successful submit
 - Amount field `autoFocus` on mount
-- Date defaults to today (`YYYY-MM-DD`)
+- Date defaults to today (`YYYY-MM-DD`) — uses local `todayISO()` helper (see `lib/utils.ts`):
+
+```typescript
+function todayISO(): string {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+```
+
+> **Why not `toISOString().split('T')[0]`?** That returns UTC date, which is the previous calendar day for users in timezones ahead of UTC during local midnight hours (e.g. 00:30 AM UTC+2 → still previous day in UTC).
 
 ### 5. Delete Flow (Dashboard Inline)
 

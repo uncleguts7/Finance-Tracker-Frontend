@@ -213,6 +213,8 @@ const queryClient = new QueryClient({
 | `POST /gaps/skip` | `['months']`, `['gaps']` | Skipped month appears in list, gap resolved |
 | `POST /logout` | **All** (via `queryClient.clear()`) | Full cache clear on logout |
 
+> **Note on `PUT /months/{id}`:** This mutation uses an **optimistic update** (TanStack Query `onMutate` updates `['month', id]` and `['summary', id]` cache immediately, with rollback on error) rather than plain invalidate-after-success. See `MONTH_DASHBOARD_FEATURE_DESIGN.md` §5.
+
 ### 3.4 Client State — React Context + `useState`
 
 Minimal client-only state:
@@ -387,15 +389,17 @@ export const monthUpdateSchema = z.object({
   savings_goal: z.number().min(0, 'Savings goal cannot be negative'),
 });
 
-export const expenseSchema = z.object({
-  amount: z.number().positive('Amount must be positive').max(999999.99),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(), // YYYY-MM-DD
-  type: z.enum(['fixed', 'variable']),
-  category_id: z.number().int().positive(),
-}).refine(
-  (data) => categories.some(c => c.id === data.category_id),
-  { message: 'Invalid category', path: ['category_id'] }
-);
+// Factory function — categories come from a runtime query, not module scope
+export const createExpenseSchema = (categories: Category[]) =>
+  z.object({
+    amount: z.number().positive('Amount must be positive').max(999999.99),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(), // YYYY-MM-DD
+    type: z.enum(['fixed', 'variable']),
+    category_id: z.number().int().positive(),
+  }).refine(
+    (data) => categories.some(c => c.id === data.category_id),
+    { message: 'Invalid category', path: ['category_id'] }
+  );
 
 // Phase 2
 export const gapBackfillSchema = z.object({
@@ -412,6 +416,8 @@ export const gapSkipSchema = z.object({
 ```
 
 > **Rule:** Zod validates *client-known* constraints only. Server 422 is authoritative (§11, §12.6). The `category_id` refine only checks against the currently loaded `GET /categories` list — it cannot re-implement the server's "exists for user AND not soft-deleted" rule.
+>
+> **Note:** `expenseSchema` is a factory function (`createExpenseSchema(categories)`) because `categories` comes from a `useQuery` hook at runtime. A static export would either throw `ReferenceError` on import or close over an empty/undefined array.
 
 ### 6.3 Server 422 → RHF `setError()` Mapping
 
@@ -438,10 +444,19 @@ if (error instanceof ApiError && error.isValidationError()) {
 | Button | Behavior |
 |--------|----------|
 | **Save** | Submit → on success, `navigate('/')` |
-| **Save & add another** | Submit → on success, `form.reset({ date: todayISO, type: 'variable', category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` |
+| **Save & add another** | Submit → on success, `form.reset({ date: todayISO(), type: 'variable', category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` |
 
 - `lastUsedCategoryId` read from `localStorage` (`lastExpenseCategoryId`), updated on every successful expense submit.
-- `todayISO` = `new Date().toISOString().split('T')[0]`.
+- `todayISO()` builds a local date string (not UTC):
+```typescript
+function todayISO(): string {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+```
 - Amount field `autoFocus` on mount.
 
 ---
@@ -560,7 +575,7 @@ export function setUser(user: User): void {
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  if (loading) return <Loader />; // checking stored token + optional GET /user
+  if (loading) return <Loader />; // checking stored token + GET /user to validate
   if (!user) return <Navigate to="/login" replace />;
   
   return <>{children}</>;
