@@ -666,4 +666,4 @@ required. If/when a frontend is built, it should be designed against the
 
 ## 11. Status
 
-Design complete. Not yet built.
+Design complete. finished building.

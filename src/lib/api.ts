@@ -1,4 +1,5 @@
 import { clearToken, getToken, type User } from './auth'
+import type { Category, Expense, Month, MonthSummary } from './types'
 
 export interface AuthResponse extends User {
   token: string
@@ -100,4 +101,17 @@ export const api = {
     request<AuthResponse>('POST', '/register', payload),
   logout: () => request<string>('POST', '/logout'),
   getUser: () => request<User>('GET', '/user'),
+
+  // Months (§7.2)
+  getMonths: () => request<Month[]>('GET', '/months'),
+  getMonthSummary: (id: number) => request<MonthSummary>('GET', `/months/${id}/summary`),
+  updateMonth: (id: number, payload: { income: number; savings_goal: number }) =>
+    request<Month>('PUT', `/months/${id}`, payload),
+
+  // Categories (§7.3)
+  getCategories: () => request<Category[]>('GET', '/categories'),
+
+  // Expenses (§7.4)
+  getExpenses: (monthId: number) => request<Expense[]>('GET', `/months/${monthId}/expenses`),
+  deleteExpense: (id: number) => request<string>('DELETE', `/expenses/${id}`),
 }

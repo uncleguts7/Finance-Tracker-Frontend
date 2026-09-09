@@ -347,4 +347,4 @@ with `ensure.month` applied (so the current month exists before we compute gaps)
 
 ## 12. Status
 
-Design complete. Not yet built.
+Design complete. finished building.

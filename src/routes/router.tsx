@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Layout } from '@/components/layout/Layout'
 import { DashboardPage } from '@/pages/DashboardPage'
+import { ExpenseFormPage } from '@/pages/ExpenseFormPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { SettingsPage } from '@/pages/SettingsPage'
@@ -24,6 +25,8 @@ export function AppRoutes() {
         }
       >
         <Route path="/" element={<DashboardPage />} />
+        <Route path="/expenses/new" element={<ExpenseFormPage />} />
+        <Route path="/expenses/:id/edit" element={<ExpenseFormPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
