@@ -1,5 +1,5 @@
 import { clearToken, getToken, type User } from './auth'
-import type { Category, Expense, Month, MonthSummary } from './types'
+import type { Category, Expense, ExpenseType, Month, MonthSummary } from './types'
 
 export interface AuthResponse extends User {
   token: string
@@ -94,6 +94,13 @@ interface RegisterPayload {
   password_confirmation: string
 }
 
+export interface ExpensePayload {
+  amount: number
+  date?: string // optional; defaults to today server-side
+  type: ExpenseType
+  category_id: number
+}
+
 // Auth endpoints only — later features add months/expenses/categories/gaps here.
 export const api = {
   login: (payload: LoginPayload) => request<AuthResponse>('POST', '/login', payload),
@@ -113,5 +120,10 @@ export const api = {
 
   // Expenses (§7.4)
   getExpenses: (monthId: number) => request<Expense[]>('GET', `/months/${monthId}/expenses`),
+  getExpense: (id: number) => request<Expense>('GET', `/expenses/${id}`),
+  createExpense: (monthId: number, payload: ExpensePayload) =>
+    request<Expense>('POST', `/months/${monthId}/expenses`, payload),
+  updateExpense: (id: number, payload: ExpensePayload) =>
+    request<Expense>('PUT', `/expenses/${id}`, payload),
   deleteExpense: (id: number) => request<string>('DELETE', `/expenses/${id}`),
 }

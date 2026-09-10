@@ -30,6 +30,19 @@ export function formatMonthLabel(year: number | string, monthNumber: number | st
   return new Intl.DateTimeFormat(undefined, { month: 'long', year: 'numeric' }).format(date)
 }
 
+/**
+ * Local date string (YYYY-MM-DD) for today. Uses local getters, NOT
+ * `toISOString().split('T')[0]`, which returns the UTC date and shifts to the
+ * previous calendar day for timezones ahead of UTC during local midnight hours.
+ */
+export function todayISO(): string {
+  const now = new Date()
+  const yyyy = now.getFullYear()
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const dd = String(now.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
+
 /** Human-readable date for an ISO timestamp (e.g. `skipped_at`). Falls back to the raw value. */
 export function formatDate(value: string | null | undefined): string {
   if (!value) return ''
