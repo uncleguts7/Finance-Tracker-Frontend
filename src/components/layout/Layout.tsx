@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { useIsFetching } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
@@ -28,6 +28,48 @@ export function Layout() {
           </div>
         </div>
       </header>
+      <nav className="border-b border-neutral-200 bg-white">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="flex gap-6">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `px-3 py-2 text-sm font-medium border-b-2 transition-colors ${
+                  isActive
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/categories"
+              className={({ isActive }) =>
+                `px-3 py-2 text-sm font-medium border-b-2 transition-colors ${
+                  isActive
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                }`
+              }
+            >
+              Categories
+            </NavLink>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `px-3 py-2 text-sm font-medium border-b-2 transition-colors ${
+                  isActive
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                }`
+              }
+            >
+              Settings
+            </NavLink>
+          </div>
+        </div>
+      </nav>
       <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
         <Outlet />
       </main>

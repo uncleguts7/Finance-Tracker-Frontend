@@ -117,6 +117,11 @@ export const api = {
 
   // Categories (§7.3)
   getCategories: () => request<Category[]>('GET', '/categories'),
+  createCategory: (payload: { name: string; default_type: ExpenseType }) =>
+    request<Category>('POST', '/categories', payload),
+  updateCategory: (id: number, payload: { name: string; default_type: ExpenseType }) =>
+    request<Category>('PUT', `/categories/${id}`, payload),
+  deleteCategory: (id: number) => request<string>('DELETE', `/categories/${id}`),
 
   // Expenses (§7.4)
   getExpenses: (monthId: number) => request<Expense[]>('GET', `/months/${monthId}/expenses`),

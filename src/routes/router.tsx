@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Layout } from '@/components/layout/Layout'
+import { CategoriesPage } from '@/pages/CategoriesPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { ExpenseFormPage } from '@/pages/ExpenseFormPage'
 import { LoginPage } from '@/pages/LoginPage'
@@ -28,6 +29,7 @@ export function AppRoutes() {
         <Route path="/expenses/new" element={<ExpenseFormPage />} />
         <Route path="/expenses/:id/edit" element={<ExpenseFormPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

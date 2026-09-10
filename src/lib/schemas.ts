@@ -52,3 +52,10 @@ export const createExpenseSchema = (categories: Category[]) =>
     })
 
 export type ExpenseInput = z.infer<ReturnType<typeof createExpenseSchema>>
+
+export const categorySchema = z.object({
+  name: z.string().min(1, 'Name required').max(100, 'Name too long'),
+  default_type: z.enum(['fixed', 'variable']),
+})
+
+export type CategoryInput = z.infer<typeof categorySchema>
