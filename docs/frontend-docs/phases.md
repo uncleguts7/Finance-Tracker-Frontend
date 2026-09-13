@@ -8,5 +8,4 @@
 - [x] ✅ **Expense CRUD** — add / edit expense forms (`docs/frontend-docs/EXPENSE_CRUD_FEATURE_DESIGN.md`).
 - [x] ✅ **Category Management** — category list / create / edit / delete (`docs/frontend-docs/CATEGORY_MANAGEMENT_FEATURE_DESIGN.md`).
 
-- - [x] ✅ **Category Management** — category list / create / edit / delete (`docs/frontend-docs/CATEGORY_MANAGEMENT_FEATURE_DESIGN.md`).
- **Gap Detection** — untracked-month banner + backfill / skip resolution (`docs/frontend-docs/GAP_DETECTION_FEATURE_DESIGN.md`)
+- [x] ✅ **Gap Detection** — untracked-month banner + backfill / skip resolution (`docs/frontend-docs/GAP_DETECTION_FEATURE_DESIGN.md`)
