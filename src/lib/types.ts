@@ -20,6 +20,24 @@ export interface Month {
   updated_at: string
 }
 
+/** Gap Detection (§7.5) */
+export interface Gap {
+  year: number
+  month_number: number
+  label: string // e.g. "March 2026"
+}
+
+export interface GapBackfillInput {
+  year: number
+  month_number: number
+  income: number
+  savings_goal: number
+}
+
+export interface GapsResponse {
+  gaps: Gap[]
+}
+
 export interface CategorySpending {
   category_name: string
   total: Money

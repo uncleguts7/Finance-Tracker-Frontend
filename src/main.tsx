@@ -7,6 +7,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { AppRoutes } from '@/routes/router'
 import { queryClient } from '@/lib/queryClient'
 import { ToastProvider } from '@/components/ui/toast'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <ToastProvider>
           <AuthProvider>
-            <AppRoutes />
+            <ErrorBoundary>
+              <AppRoutes />
+            </ErrorBoundary>
           </AuthProvider>
         </ToastProvider>
       </BrowserRouter>

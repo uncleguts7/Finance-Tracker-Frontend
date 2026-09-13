@@ -2,11 +2,18 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { useIsFetching } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/hooks/useAuth'
+import { useGaps } from '@/hooks/useGaps'
 
 export function Layout() {
   const { user, logout } = useAuth()
   const isFetching = useIsFetching() > 0
+  const { data: gapsData } = useGaps()
+  const gapCount = gapsData?.gaps?.length ?? 0
+
+  // Show badge if there are gaps, even if banner was dismissed
+  const showGapsLink = gapCount > 0
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -38,8 +45,7 @@ export function Layout() {
                   isActive
                     ? 'border-blue-600 text-blue-600'
                     : 'border-transparent text-neutral-500 hover:text-neutral-700'
-                }`
-              }
+                }`}
             >
               Dashboard
             </NavLink>
@@ -50,11 +56,26 @@ export function Layout() {
                   isActive
                     ? 'border-blue-600 text-blue-600'
                     : 'border-transparent text-neutral-500 hover:text-neutral-700'
-                }`
-              }
+                }`}
             >
               Categories
             </NavLink>
+            {showGapsLink && (
+              <NavLink
+                to="/gaps"
+                className={({ isActive }) =>
+                  `px-3 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+                    isActive
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                  }`}
+              >
+                Gaps
+                <Badge variant="destructive" className="ml-1">
+                  {gapCount}
+                </Badge>
+              </NavLink>
+            )}
             <NavLink
               to="/settings"
               className={({ isActive }) =>
@@ -62,8 +83,7 @@ export function Layout() {
                   isActive
                     ? 'border-blue-600 text-blue-600'
                     : 'border-transparent text-neutral-500 hover:text-neutral-700'
-                }`
-              }
+                }`}
             >
               Settings
             </NavLink>

@@ -3,6 +3,7 @@ import { CategoryBreakdown } from '@/components/dashboard/CategoryBreakdown'
 import { CategoryBreakdownSkeleton } from '@/components/dashboard/CategoryBreakdownSkeleton'
 import { ExpenseList } from '@/components/dashboard/ExpenseList'
 import { ExpenseListSkeleton } from '@/components/dashboard/ExpenseListSkeleton'
+import { GapBanner } from '@/components/dashboard/GapBanner'
 import { MonthHeader } from '@/components/dashboard/MonthHeader'
 import { SkippedMonthView } from '@/components/dashboard/SkippedMonthView'
 import { SummaryCards } from '@/components/dashboard/SummaryCards'
@@ -49,6 +50,7 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <GapBanner />
       <MonthHeader month={activeMonth} />
       <SummaryCards summary={summary} />
       <ExpenseList expenses={expenses} categories={categories} monthId={activeMonth.id} />

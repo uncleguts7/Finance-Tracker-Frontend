@@ -1,5 +1,5 @@
 import { clearToken, getToken, type User } from './auth'
-import type { Category, Expense, ExpenseType, Month, MonthSummary } from './types'
+import type { Category, Expense, ExpenseType, GapsResponse, Month, MonthSummary } from './types'
 
 export interface AuthResponse extends User {
   token: string
@@ -131,4 +131,11 @@ export const api = {
   updateExpense: (id: number, payload: ExpensePayload) =>
     request<Expense>('PUT', `/expenses/${id}`, payload),
   deleteExpense: (id: number) => request<string>('DELETE', `/expenses/${id}`),
+
+  // Gaps (§7.5)
+  getGaps: () => request<GapsResponse>('GET', '/gaps'),
+  backfillGap: (payload: { year: number; month_number: number; income: number; savings_goal: number }) =>
+    request<Month>('POST', '/gaps/backfill', payload),
+  skipGap: (payload: { year: number; month_number: number }) =>
+    request<Month>('POST', '/gaps/skip', payload),
 }

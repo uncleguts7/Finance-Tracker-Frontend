@@ -4,6 +4,7 @@ import { Layout } from '@/components/layout/Layout'
 import { CategoriesPage } from '@/pages/CategoriesPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { ExpenseFormPage } from '@/pages/ExpenseFormPage'
+import { GapsPage } from '@/pages/GapsPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { SettingsPage } from '@/pages/SettingsPage'
@@ -30,6 +31,7 @@ export function AppRoutes() {
         <Route path="/expenses/:id/edit" element={<ExpenseFormPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/gaps" element={<GapsPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

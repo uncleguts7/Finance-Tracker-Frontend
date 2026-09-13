@@ -59,3 +59,19 @@ export const categorySchema = z.object({
 })
 
 export type CategoryInput = z.infer<typeof categorySchema>
+
+/** Gap Detection — Phase 2 */
+export const gapBackfillSchema = z.object({
+  year: z.number().int().min(2000).max(2099),
+  month_number: z.number().int().min(1).max(12),
+  income: z.number().min(0, 'Income cannot be negative'),
+  savings_goal: z.number().min(0, 'Savings goal cannot be negative'),
+})
+
+export const gapSkipSchema = z.object({
+  year: z.number().int().min(2000).max(2099),
+  month_number: z.number().int().min(1).max(12),
+})
+
+export type GapBackfillInput = z.infer<typeof gapBackfillSchema>
+export type GapSkipInput = z.infer<typeof gapSkipSchema>
