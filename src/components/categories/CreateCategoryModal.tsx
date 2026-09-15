@@ -10,6 +10,7 @@ import { useToast } from '@/components/ui/toast'
 import { api, ApiError } from '@/lib/api'
 import { applyServerErrors } from '@/lib/formErrors'
 import { categorySchema, type CategoryInput } from '@/lib/schemas'
+import type { Category } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 const selectClasses =
@@ -18,9 +19,10 @@ const selectClasses =
 interface CreateCategoryModalProps {
   open: boolean
   onClose: () => void
+  onSuccess?: (category: Category) => void
 }
 
-export function CreateCategoryModal({ open, onClose }: CreateCategoryModalProps) {
+export function CreateCategoryModal({ open, onClose, onSuccess }: CreateCategoryModalProps) {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -46,9 +48,10 @@ export function CreateCategoryModal({ open, onClose }: CreateCategoryModalProps)
 
   const createMutation = useMutation({
     mutationFn: (data: CategoryInput) => api.createCategory(data),
-    onSuccess: () => {
+    onSuccess: (createdCategory) => {
       void queryClient.invalidateQueries({ queryKey: ['categories'] })
       toast({ title: 'Category created' })
+      onSuccess?.(createdCategory)
       onClose()
     },
     onError: handleError,
