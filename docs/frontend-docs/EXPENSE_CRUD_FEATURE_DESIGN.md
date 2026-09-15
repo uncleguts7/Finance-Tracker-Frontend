@@ -1,6 +1,6 @@
 # Expense CRUD Feature Design — Frontend
 
-> Status: **design complete, not yet built**
+> Status: **built** (with post-build fixes — see [11. Post-Build Fixes](#11-post-build-fixes))
 
 ---
 
@@ -44,7 +44,7 @@ function ExpenseForm({ initialData, onSuccess }) {
   const form = useForm<ExpenseInput>({
     resolver: zodResolver(createExpenseSchema(categories ?? [])),
     defaultValues: {
-      amount: '',
+      amount: initialData ? Number(initialData.amount) : '',
       date: todayISO(),           // YYYY-MM-DD (local date, not UTC)
       type: 'variable',           // default per backend (§7.4: defaults to today, type required)
       category_id: initialData?.category_id ?? 
@@ -108,7 +108,7 @@ export const createExpenseSchema = (categories: Category[]) =>
 | Button | Behavior |
 |--------|----------|
 | **Save** | Submit → on success, `navigate('/')` (back to dashboard) |
-| **Save & add another** | Submit → on success, `form.reset({ date: todayISO(), type: 'variable', category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` |
+| **Save & add another** | Submit → on success, `form.reset({ date: todayISO(), type: currentCategory.default_type, category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` (type resets to the kept category's `default_type`, not hardcoded `variable`) |
 
 - `lastUsedCategoryId` persisted to `localStorage` (`lastExpenseCategoryId`) on every successful submit
 - Amount field `autoFocus` on mount
@@ -160,11 +160,18 @@ function handleApiError(form) {
 
 **All blocking errors show form-level banner + toast** — not either/or.
 
-### 7. Category Dropdown
+### 7. Category Dropdown & Category → Type Sync
 
 - Populated from `useQuery(['categories'])` — only non-deleted categories (backend excludes soft-deleted)
 - Option label: `${category.name} (${category.default_type})` — shows default type as hint
-- **Type selector is independent** — user can choose `fixed` or `variable` regardless of category's `default_type` (§5.3)
+- Last option is `+ Add Category` (sentinel value `-1`) — opens `CreateCategoryModal` inline. On success the new category is auto-selected and its `default_type` applied; on cancel, the previous selection (or last-used/first category) is restored.
+
+**Category → Type sync (as implemented):** every time the category changes, the Type field is set to the category's `default_type`:
+
+- Category `default_type: variable` → Type = `variable`, Type select **editable** — the user may still override it to `fixed` for this expense (§5.3: type lives on the expense).
+- Category `default_type: fixed` → Type = `fixed`, Type select **disabled/locked** — a fixed-category expense cannot be marked variable from Add/Edit Expense.
+
+Implementation: a `form.watch` subscription observes `category_id` changes and calls `setValue('type', category.default_type)`. The disabled state is derived reactively: `form.watch('category_id')` → `categories.find(...)?.default_type === 'fixed'`.
 
 ### 8. Loading & Error States
 
@@ -192,7 +199,7 @@ Per `Frontend-System-Design.md` §10:
 - **Shared form component** — create/edit differ only in `initialData` and mutation; single source of truth for validation, layout, UX.
 - **Two-button pattern** — supports "add multiple expenses in a row" workflow without context switch to dashboard.
 - **`lastUsedCategoryId` in localStorage** — durable user preference, survives refresh (query cache can evict).
-- **Category default_type as hint only** — backend stores `type` per-expense; UI shows hint but allows override.
+- **Category default_type drives the type field** — selecting a category sets `type` to its `default_type`; variable categories leave Type editable (per-expense override still allowed, §5.3), fixed categories lock it to `fixed`.
 - **Delete via Dialog** — confirms destructive action, accessible (focus trap, ESC to close).
 - **Invalidation targets summary + expenses** — expense mutations change both totals and list.
 
@@ -205,11 +212,28 @@ Per `Frontend-System-Design.md` §10:
 | **Modal expense form on dashboard** | Decision 2a: full-page routes for Phase 1. Simpler, deep-linkable, mobile-friendly. Revisit if friction proven. |
 | **Inline expense row editing** | Complex for multi-field rows; full page is clearer for amount/date/type/category. |
 | **Optimistic UI for create/update** | TanStack Query invalidation is fast enough; optimistic adds rollback complexity for low-value gain. |
-| **Category default_type as forced type** | Violates backend rule: "type lives on expense, not category" (§5.3). |
+| **Type selector fully independent of category** | Originally designed (and rejected here) the opposite way. Revised post-build: category `default_type` now syncs the Type field — `variable` categories keep it editable (preserving §5.3 per-expense override), `fixed` categories lock it to `fixed`. |
 | **Separate create/edit components** | Duplicates validation, layout, error handling. Shared component + `initialData` is DRY. |
+
+---
+
+---
+
+## 11. Post-Build Fixes
+
+### 11.1 Edit form: amount not pre-filled (commit `f2df49d`)
+`defaultValues.amount` was hardcoded to empty in edit mode. Fixed by parsing the stored string amount to a number when `initialData` is present (`defaultValues.amount = initialData ? Number(initialData.amount) : ''`).
+
+### 11.2 Category → Type synchronization broken (commit `ca34839`)
+Two React Hook Form bugs prevented the Type field from following the selected Category:
+
+1. **Type never synced:** the `form.watch((value, { name }) => …)` callback treated `value` as the changed field's value (`value as number`), but RHF passes the **entire form values object** as the first argument. `categories.find(c => c.id === categoryId)` therefore never matched and `setValue('type', …)` never ran. Fixed by reading `value.category_id`.
+2. **Lock state stale:** the disabled flag used `form.getValues('category_id')` at render time, which is non-reactive — category changes didn't re-render, so Type never locked/unlocked. Fixed with `form.watch('category_id')`.
+
+Verified: variable → editable `variable`; fixed → locked `fixed`; repeated transitions always reflect the selected category.
 
 ---
 
 ## Status
 
-**Design complete, not yet built.**
+**Built.** Includes category→type sync, inline "+ Add Category" flow, and both post-build fixes above.

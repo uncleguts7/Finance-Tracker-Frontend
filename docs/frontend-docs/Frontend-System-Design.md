@@ -444,7 +444,7 @@ if (error instanceof ApiError && error.isValidationError()) {
 | Button | Behavior |
 |--------|----------|
 | **Save** | Submit → on success, `navigate('/')` |
-| **Save & add another** | Submit → on success, `form.reset({ date: todayISO(), type: 'variable', category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` |
+| **Save & add another** | Submit → on success, `form.reset({ date: todayISO(), type: currentCategory.default_type, category_id: lastUsedCategoryId, amount: '' })` — stays on `/expenses/new` |
 
 - `lastUsedCategoryId` read from `localStorage` (`lastExpenseCategoryId`), updated on every successful expense submit.
 - `todayISO()` builds a local date string (not UTC):
