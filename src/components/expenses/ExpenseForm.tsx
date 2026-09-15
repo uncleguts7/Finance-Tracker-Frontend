@@ -57,7 +57,7 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
   const form = useForm<ExpenseInput>({
     resolver,
     defaultValues: {
-      amount: '' as unknown as number,
+      amount: initialData ? Number(initialData.amount) : ('' as unknown as number),
       date: initialData?.date ?? todayISO(),
       type: initialData?.type ?? 'variable',
       // 0 = "no selection" placeholder; resolved to a real category once loaded.
