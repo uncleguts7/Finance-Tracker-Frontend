@@ -174,12 +174,14 @@ The frontend should branch on these.
 
 ### 3.2 Endpoints
 
-| Method | Path             | Auth required | Returns                                  |
-| ------ | ---------------- | ------------- | ---------------------------------------- |
-| POST   | `/api/register`  | No            | `{ "data": { id, name, email, token } }` |
-| POST   | `/api/login`     | No            | `{ "data": { id, name, email, token } }` |
-| POST   | `/api/logout`    | Yes (sanctum) | `{ "message": "Logged out successfully" }` |
-| GET    | `/api/user`      | Yes (sanctum) | `{ "data": { id, name, email } }` (no token) |
+| Method | Path                  | Auth required | Returns                                            |
+| ------ | --------------------- | ------------- | -------------------------------------------------- |
+| POST   | `/api/register`       | No            | `{ "data": { id, name, email, token } }`           |
+| POST   | `/api/login`          | No            | `{ "data": { id, name, email, token } }`           |
+| POST   | `/api/logout`         | Yes (sanctum) | `{ "message": "Logged out successfully" }`         |
+| GET    | `/api/user`           | Yes (sanctum) | `{ "data": { id, name, email, created_at } }`      |
+| PUT    | `/api/user`           | Yes (sanctum) | `{ "data": { id, name, email, created_at } }`      |
+| PUT    | `/api/user/password`  | Yes (sanctum) | `{ "data": { id, name, email, created_at, token } }` |
 
 ### 3.3 Registration side-effects
 
@@ -404,7 +406,7 @@ respect them in the UI — bypassing them will produce 403/422 errors.
 Every successful response on a resource endpoint is shaped by a Laravel API
 Resource class. The frontend should rely on these shapes exactly.
 
-### 6.1 `UserResource` — used by `register`, `login`, `GET /user`
+### 6.1 `UserResource` — used by `register`, `login`, `GET /user`, `PUT /user`, `PUT /user/password`
 
 ```json
 {
@@ -412,15 +414,16 @@ Resource class. The frontend should rely on these shapes exactly.
     "id": 1,
     "name": "Jane Doe",
     "email": "jane@example.com",
-    "token": "1|abcxyz..."   // only present on register/login
+    "created_at": "2026-01-15T10:30:00+00:00",
+    "token": "1|abcxyz..."   // only present on register/login/password change
   }
 }
 ```
 
-- `token` is **omitted entirely** on `GET /user` (returns null/MissingValue,
+- `token` is **omitted entirely** on `GET /user` and `PUT /user` (returns null/MissingValue,
   stripped by Laravel).
 - Excluded fields: `password`, `remember_token`, `email_verified_at`,
-  `created_at`, `updated_at`.
+  `updated_at`.
 
 ### 6.2 `MonthResource` — used by `GET /months`, `GET /months/{id}`,
 `PUT /months/{id}`, `POST /gaps/backfill`, `POST /gaps/skip`
@@ -612,9 +615,44 @@ Resource class. The frontend should rely on these shapes exactly.
 #### `GET /api/user`
 
 - **Auth:** required.
-- **Response:** `200 { "data": { "id", "name", "email" } }` — **no
+- **Response:** `200 { "data": { "id", "name", "email", "created_at" } }` — **no
   `token` field**.
 - **Errors:** `401` if no token.
+
+#### `PUT /api/user` (Update Profile)
+
+- **Auth:** required (sanctum bearer).
+- **Request body:**
+  ```json
+  { "name": "Jane Doe" }
+  ```
+- **Validation:** `name` required + string + `max:255`.
+- **Side-effects:** updates the authenticated user's name.
+- **Response:** `200 { "data": { "id", "name", "email", "created_at" } }` — no `token` field.
+- **Errors:** `401` if no token, `422` on validation failure.
+
+#### `PUT /api/user/password` (Change Password)
+
+- **Auth:** required (sanctum bearer).
+- **Request body:**
+  ```json
+  {
+    "current_password": "oldpassword123",
+    "password": "newpassword123",
+    "password_confirmation": "newpassword123"
+  }
+  ```
+- **Validation:**
+  - `current_password` required + string
+  - `password` required + string + `min:8` + `confirmed`
+- **Side-effects:**
+  1. Verifies `current_password` matches stored hash → `422` if wrong (`errors.current_password`).
+  2. Rejects if new password equals current password → `422` (`errors.password`).
+  3. Hashes new password, updates user.
+  4. **Revokes ALL user's existing Sanctum tokens** (`$user->tokens()->delete()`).
+  5. Issues a fresh Sanctum token.
+- **Response:** `200 { "data": { "id", "name", "email", "created_at", "token" } }` — includes new token so frontend can stay logged in.
+- **Errors:** `401` if no token, `422` on validation failure or business rule violation.
 
 ---
 
@@ -1013,6 +1051,9 @@ This table is exhaustive based on the current controllers.
 |                                | `password`       | required, min:8, confirmed                                     |
 | `POST /api/login`              | `email`          | required, email                                                |
 |                                | `password`       | required, string                                               |
+| `PUT /api/user`                | `name`           | required, string, max:255                                      |
+| `PUT /api/user/password`       | `current_password` | required, string                                             |
+|                                | `password`       | required, string, min:8, confirmed                             |
 | `PUT /api/months/{id}`         | `income`         | required, numeric                                              |
 |                                | `savings_goal`   | required, numeric                                              |
 | `POST /api/gaps/backfill`      | `year`           | required, integer, min:2000, max:2099                          |
@@ -1042,10 +1083,13 @@ The frontend can reliably match on these exact messages.
 
 ### 12.1 Auth errors
 
-| Status | Body                                          | Trigger                                |
-| ------ | --------------------------------------------- | -------------------------------------- |
-| 401    | `{"message":"Unauthenticated."}`              | No bearer token / invalid token         |
-| 401    | `{"message":"Invalid credentials"}`           | Login: wrong email or password         |
+| Status | Body                                                                 | Trigger                                          |
+| ------ | -------------------------------------------------------------------- | ------------------------------------------------ |
+| 401    | `{"message":"Unauthenticated."}`                                     | No bearer token / invalid token                   |
+| 401    | `{"message":"Invalid credentials"}`                                  | Login: wrong email or password                    |
+| 422    | `{"message":"The given data was invalid.", "errors":{"current_password":["The current password is incorrect."]}}` | Password change: wrong current password           |
+| 422    | `{"message":"The given data was invalid.", "errors":{"password":["The new password must be different from the current password."]}}` | Password change: new password equals current      |
+| 422    | (Laravel validation shape)                                           | Profile update / password change: validation fail |
 
 ### 12.2 Month errors
 

@@ -75,3 +75,22 @@ export const gapSkipSchema = z.object({
 
 export type GapBackfillInput = z.infer<typeof gapBackfillSchema>
 export type GapSkipInput = z.infer<typeof gapSkipSchema>
+
+export const profileSchema = z.object({
+  name: z.string().min(1, 'Name required').max(255, 'Name too long'),
+})
+
+export type ProfileFormValues = z.infer<typeof profileSchema>
+
+export const changePasswordSchema = z
+  .object({
+    current_password: z.string().min(1, 'Current password required'),
+    password: z.string().min(8, 'At least 8 characters'),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: 'Passwords do not match',
+    path: ['password_confirmation'],
+  })
+
+export type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>

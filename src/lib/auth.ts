@@ -2,6 +2,7 @@ export interface User {
   id: number
   name: string
   email: string
+  created_at?: string
 }
 
 const TOKEN_KEY = 'ft_auth_token'

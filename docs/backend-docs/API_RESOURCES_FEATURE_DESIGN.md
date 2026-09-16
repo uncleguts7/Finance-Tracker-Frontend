@@ -59,10 +59,11 @@ Five resource classes total. Located at `app/Http/Resources/`.
 | `id` | `$this->id` | |
 | `name` | `$this->name` | |
 | `email` | `$this->email` | |
-| `token` | conditional via `withToken()` | Only present when the controller explicitly sets it (register, login). Absent from `GET /user`. |
+| `created_at` | `$this->created_at` | ISO 8601 timestamp |
+| `token` | conditional via `withToken()` | Only present when the controller explicitly sets it (register, login, password change). Absent from `GET /user` and `PUT /user`. |
 
 Excluded by design: `password`, `remember_token`, `email_verified_at`,
-`created_at`, `updated_at` — not relevant to the auth response.
+`updated_at` — not relevant to the auth response.
 
 The `token` field is implemented via a private property + fluent setter:
 
@@ -83,6 +84,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'created_at' => $this->created_at?->toIso8601String(),
             'token' => $this->when(
                 $this->accessToken !== null,
                 fn () => $this->accessToken,
@@ -525,7 +527,11 @@ expect($response->json('data.email'))->toBe('jane@example.com');
 expect($response->json('data.token'))->toBeString()->not->toBeEmpty();
 
 // For GET /user (no token)
-$response->assertJsonStructure(['data' => ['id', 'name', 'email']])
+$response->assertJsonStructure(['data' => ['id', 'name', 'email', 'created_at']])
+    ->assertJsonMissingPath('data.token');
+
+// For PUT /api/user (no token)
+$response->assertJsonStructure(['data' => ['id', 'name', 'email', 'created_at']])
     ->assertJsonMissingPath('data.token');
 ```
 
@@ -666,4 +672,4 @@ required. If/when a frontend is built, it should be designed against the
 
 ## 11. Status
 
-Design complete. finished building.
+Design complete. Not yet built.

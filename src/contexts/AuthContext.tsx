@@ -23,6 +23,12 @@ export interface AuthContextValue {
     password_confirmation: string,
   ) => Promise<void>
   logout: () => Promise<void>
+  updateProfile: (name: string) => Promise<void>
+  changePassword: (
+    current_password: string,
+    password: string,
+    password_confirmation: string,
+  ) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
@@ -105,9 +111,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     navigate('/login', { replace: true })
   }, [navigate])
 
+  const updateProfile = useCallback(
+    async (name: string) => {
+      const data = await api.updateUser({ name })
+      const updatedUser = { id: data.id, name: data.name, email: data.email, created_at: data.created_at }
+      persistUser(updatedUser)
+      setAuthenticatedUser(updatedUser)
+    },
+    [],
+  )
+
+  const changePassword = useCallback(
+    async (current_password: string, password: string, password_confirmation: string) => {
+      const data = await api.changePassword({ current_password, password, password_confirmation })
+      // Backend returns new token on password change — swap it to keep session alive
+      setToken(data.token)
+      const updatedUser = { id: data.id, name: data.name, email: data.email, created_at: data.created_at }
+      persistUser(updatedUser)
+      setAuthenticatedUser(updatedUser)
+    },
+    [],
+  )
+
   const value = useMemo(
-    () => ({ user, loading, login, register, logout }),
-    [user, loading, login, register, logout],
+    () => ({ user, loading, login, register, logout, updateProfile, changePassword }),
+    [user, loading, login, register, logout, updateProfile, changePassword],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

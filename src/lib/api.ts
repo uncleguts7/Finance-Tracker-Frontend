@@ -108,6 +108,12 @@ export const api = {
     request<AuthResponse>('POST', '/register', payload),
   logout: () => request<string>('POST', '/logout'),
   getUser: () => request<User>('GET', '/user'),
+  updateUser: (payload: { name: string }) => request<User>('PUT', '/user', payload),
+  changePassword: (payload: {
+    current_password: string
+    password: string
+    password_confirmation: string
+  }) => request<AuthResponse>('PUT', '/user/password', payload),
 
   // Months (§7.2)
   getMonths: () => request<Month[]>('GET', '/months'),

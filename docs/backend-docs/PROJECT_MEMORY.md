@@ -146,8 +146,8 @@ Month (1) ──< (many) Expense >── (1) Category
 
 **Fully built, tested, and working (backend):**
 - **User model** with `HasApiTokens` traits, `hasMany` relationships to `Month` and `Category`
-- **AuthController**: `register` (creates user + seeds 3 default categories per user + issues token), `login` (issues token), `logout` (revokes current token), `user` (returns authenticated user)
-- Auth routes: `POST /register`, `POST /login`, `POST /logout` (auth:sanctum), `GET /user` (auth:sanctum)
+- **AuthController**: `register` (creates user + seeds 3 default categories per user + issues token), `login` (issues token), `logout` (revokes current token), `user` (returns authenticated user), `updateProfile` (updates user name), `updatePassword` (changes password, revokes all tokens, issues new token)
+- Auth routes: `POST /register`, `POST /login`, `POST /logout` (auth:sanctum), `GET /user` (auth:sanctum), `PUT /user` (auth:sanctum), `PUT /user/password` (auth:sanctum)
 - All controllers scoped through `auth()->user()->months()` / `auth()->user()->categories()` / `whereHas('month', ...)` for expenses
 - All Month/Expense routes wrapped in `auth:sanctum` + `ensure.month` middleware
 - `EnsureCurrentMonthExists` middleware scoped to authenticated user — correctly creates first-ever month for new users
@@ -167,7 +167,7 @@ Month (1) ──< (many) Expense >── (1) Category
 - Routes fully wired in `routes/api.php`, mixing `apiResource` shortcuts with manual nested routes where needed
 - `GET /months/{id}/summary` — returns income, savings_goal, total_spent, remaining, available_to_spend, is_overspent, spending_by_category (with category names via join, correctly includes soft-deleted categories' historical expenses; returns nulls for skipped months via `MonthSummaryResource`)
 - **API Resources**: all responses wrapped in `data` key per Laravel convention
-  - `UserResource` — with optional `token` via `withToken()` for auth responses
+  - `UserResource` — with optional `token` via `withToken()` for auth responses, includes `created_at`
   - `MonthResource` — all month fields except `user_id`
   - `CategoryResource` — all category fields except `user_id` and `deleted_at`
   - `ExpenseResource` — all expense fields with optional embedded `category` via `whenLoaded()`
@@ -176,7 +176,7 @@ Month (1) ──< (many) Expense >── (1) Category
 **Missing / not yet built:**
 - No frontend — planned as a separate SPA
 
-**79 Pest tests covering all endpoints** (auth, categories, months, expenses, gaps, summaries, API resource responses, serialization regression) — all passing. Serialization contracts guaranteed by explicit `$casts` + `ExpenseResource` formatting.
+**93 Pest tests covering all endpoints** (auth, categories, months, expenses, gaps, summaries, API resource responses, serialization regression, profile update, password change) — all passing. Serialization contracts guaranteed by explicit `$casts` + `ExpenseResource` formatting.
 
 ## 8. What's Next (Not Yet Designed/Built)
 
