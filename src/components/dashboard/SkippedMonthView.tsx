@@ -8,16 +8,16 @@ interface SkippedMonthViewProps {
 
 export function SkippedMonthView({ month, skippedAt }: SkippedMonthViewProps) {
   return (
-    <section className="rounded-lg border border-neutral-200 bg-white p-8 text-center">
+    <section className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
       <div className="flex items-center justify-center gap-3">
-        <h1 className="text-xl font-semibold text-neutral-500">
+        <h1 className="text-lg font-semibold tracking-tight text-muted-foreground">
           {formatMonthLabel(month.year, month.month_number)}
         </h1>
-        <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-500">
+        <span className="rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           Skipped
         </span>
       </div>
-      <p className="mt-2 text-sm text-neutral-500">
+      <p className="mt-2 text-sm text-muted-foreground">
         This month was intentionally skipped
         {skippedAt ? ` on ${formatDate(skippedAt)}` : ''}.
       </p>

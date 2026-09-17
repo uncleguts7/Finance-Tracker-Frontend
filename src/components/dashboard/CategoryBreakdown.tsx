@@ -1,9 +1,19 @@
 import { useMemo } from 'react'
 
 import type { MonthSummary } from '@/lib/types'
-import { categoryColor, formatCurrency, toNumber } from '@/lib/utils'
+import { formatCurrency, toNumber } from '@/lib/utils'
 
 import { EmptyState } from './EmptyState'
+
+// Rank-ordered bar tones matching the Stitch reference (dark → muted → green accents).
+const barTones = [
+  'bg-foreground',
+  'bg-muted-foreground',
+  'bg-positive',
+  'bg-zinc-400 dark:bg-zinc-500',
+  'bg-zinc-300 dark:bg-zinc-600',
+  'bg-zinc-500',
+]
 
 export function CategoryBreakdown({ summary }: { summary: MonthSummary }) {
   const items = useMemo(() => {
@@ -15,33 +25,41 @@ export function CategoryBreakdown({ summary }: { summary: MonthSummary }) {
   const totalSpent = toNumber(summary.total_spent)
 
   return (
-    <section className="rounded-lg border border-neutral-200 bg-white p-4 sm:p-6">
-      <h2 className="text-lg font-semibold text-neutral-900">Spending by category</h2>
+    <section className="flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold tracking-tight">Spending by Category</h2>
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          Active share
+        </span>
+      </div>
 
       {items.length === 0 || totalSpent <= 0 ? (
         <EmptyState title="No spending by category yet" />
       ) : (
-        <ul className="mt-4 space-y-3">
-          {items.map((item) => {
+        <div className="flex flex-col gap-4">
+          {items.map((item, i) => {
             const pct = totalSpent > 0 ? (item.total / totalSpent) * 100 : 0
             return (
-              <li key={item.name}>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-neutral-800">{item.name}</span>
-                  <span className="font-mono text-neutral-500">
-                    {formatCurrency(item.total)} · {pct.toFixed(0)}%
+              <div key={item.name} className="flex flex-col gap-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium">{item.name}</span>
+                  <span className="tabular-nums text-muted-foreground">
+                    <strong className="font-semibold text-foreground">
+                      {formatCurrency(item.total)}
+                    </strong>{' '}
+                    · {pct.toFixed(0)}%
                   </span>
                 </div>
-                <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-neutral-100">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
                   <div
-                    className="h-full rounded-full"
-                    style={{ width: `${pct}%`, backgroundColor: categoryColor(item.name) }}
+                    className={`h-full rounded-full ${barTones[i % barTones.length]}`}
+                    style={{ width: `${pct}%` }}
                   />
                 </div>
-              </li>
+              </div>
             )
           })}
-        </ul>
+        </div>
       )}
     </section>
   )

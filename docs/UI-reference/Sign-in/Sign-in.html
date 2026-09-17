@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary-container": "#6cf8bb", "primary-container": "#141b2b", "on-surface": "#1a1b22", "inverse-surface": "#2f3038", "surface-dim": "#dad9e3", "on-secondary-fixed-variant": "#005236", "inverse-on-surface": "#f1effa", "outline-variant": "#c6c6cd", "secondary-fixed-dim": "#4edea3", "tertiary": "#000000", "on-primary-fixed": "#141b2b", "on-tertiary-fixed-variant": "#653e00", "outline": "#76777d", "primary": "#000000", "error": "#ba1a1a", "surface-container-high": "#e8e7f1", "primary-fixed-dim": "#c0c6db", "background": "#fbf8ff", "on-secondary": "#ffffff", "primary-fixed": "#dce2f7", "tertiary-fixed": "#ffddb8", "on-secondary-fixed": "#002113", "on-surface-variant": "#45464c", "on-secondary-container": "#00714d", "surface-bright": "#fbf8ff", "on-background": "#1a1b22", "on-tertiary": "#ffffff", "on-error": "#ffffff", "tertiary-container": "#2a1700", "surface-tint": "#575e70", "secondary-fixed": "#6ffbbe", "tertiary-fixed-dim": "#ffb95f", "on-tertiary-fixed": "#2a1700", "on-primary": "#ffffff", "on-error-container": "#93000a", "error-container": "#ffdad6", "surface-container": "#eeedf7", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#404758", "secondary": "#006c49", "inverse-primary": "#c0c6db", "on-tertiary-container": "#b87500", "surface-variant": "#e3e1ec", "on-primary-container": "#7d8497", "surface": "#fbf8ff", "surface-container-highest": "#e3e1ec", "surface-container-low": "#f4f2fd" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-lg": "1.5rem", "gutter": "1rem", "space-xl": "2rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "space-md": "0.75rem", "margin": "1rem", "margin-lg": "2.5rem", "margin-md": "1.5rem" }, "fontFamily": { "headline-lg": ["Inter"], "label-md": ["Inter"], "numeric-table": ["Inter"], "body-md": ["Inter"], "label-sm": ["Inter"], "headline-xl-mobile": ["Inter"], "headline-xl": ["Inter"], "headline-sm": ["Inter"], "numeric-metric": ["Inter"], "body-lg": ["Inter"], "body-sm": ["Inter"] }, "fontSize": { "headline-lg": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.025em", "fontWeight": "600" }], "label-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0", "fontWeight": "500" }], "numeric-table": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "letterSpacing": "-0.005em", "fontWeight": "400" }], "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-xl-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-xl": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.03em", "fontWeight": "600" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "numeric-metric": ["1.75rem", { "lineHeight": "2rem", "letterSpacing": "-0.03em", "fontWeight": "600" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "letterSpacing": "0", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><main class="w-full min-h-screen bg-surface flex items-center justify-center"><div class="flex flex-col w-full items-center justify-center p-gutter md:p-gutter-lg">
+<div class="w-full max-w-sm mx-auto">
+<!-- Brand / Architectural Micro Icon -->
+<div class="flex items-center justify-center mb-space-lg">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<!-- Main Authentication Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-xl p-space-xl flex flex-col">
+<!-- Header -->
+<div class="flex flex-col text-center mb-space-xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Sign in</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back to Finance Tracker</p>
+</div>
+<!-- Form Container -->
+<form class="flex flex-col gap-space-lg" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<div class="relative flex items-center">
+<input autocomplete="email" class="w-full h-10 px-3 bg-surface-container-low rounded text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline focus:bg-surface-container-lowest" id="email" required="" type="email" value="mario@example.com"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+</div>
+<div class="relative flex items-center">
+<input autocomplete="current-password" class="w-full h-10 px-3 pr-10 bg-surface-container-low rounded text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline focus:bg-surface-container-lowest" id="password" required="" type="password" value="••••••••"/>
+<button aria-label="Toggle password visibility" class="absolute right-2.5 text-on-surface-variant hover:text-on-surface flex items-center justify-center p-1 rounded transition-colors focus:outline-none" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-base" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full h-10 mt-1 bg-primary text-on-primary font-label-md text-label-md rounded flex items-center justify-center hover:bg-inverse-surface transition-all active:scale-[0.99] shadow-sm" type="submit">
+          Sign in
+        </button>
+</form>
+<!-- Bottom Nav Link -->
+<div class="mt-space-xl text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Don't have an account? 
+          <a class="font-label-md text-label-md text-primary hover:underline ml-0.5" href="#">Sign up</a>
+</p>
+</div>
+</div>
+<!-- Subtle Security Badge / Micro Footnote -->
+<div class="mt-space-lg flex items-center justify-center gap-1 text-on-surface-variant/60 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">lock</span>
+<span>256-bit encrypted ledger connection</span>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const toggleBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    if (toggleBtn && passwordInput && eyeIcon) {
+      toggleBtn.addEventListener('click', function() {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+      });
+    }
+  })();
+</script></main></body></html>

@@ -4,35 +4,74 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* #fafafa */
-    --foreground: 0 0% 9%; /* #171717 */
+    --background: 258 100% 98.8%; /* #fbf8ff — Stitch canvas */
+
+    --positive: 158 100% 21%; /* #006c49 — inflow / on-budget */
+    --positive-foreground: 0 0% 100%;
+    --foreground: 240 5.9% 10%; /* #18181b */
 
     --card: 0 0% 100%; /* #ffffff */
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 240 5.9% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 240 5.9% 10%;
 
-    --primary: 221.2 83.2% 53.3%; /* #2563eb */
+    --primary: 240 5.9% 10%; /* #18181b */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96.1%; /* #f5f5f5 */
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 240 4.8% 95.9%; /* #f4f4f5 */
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 0 0% 96.1%; /* #f5f5f5 */
-    --muted-foreground: 0 0% 45.1%; /* #737373 */
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%; /* #71717a */
 
-    --accent: 0 0% 96.1%; /* #f5f5f5 */
-    --accent-foreground: 0 0% 9%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
-    --destructive: 0 72.2% 50.6%; /* #dc2626 */
+    --destructive: 0 84.2% 60.2%; /* #ef4444 */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89.8%; /* #e5e5e5 */
-    --input: 0 0% 89.8%; /* #e5e5e5 */
-    --ring: 221.2 83.2% 53.3%; /* #2563eb */
+    --border: 240 5.9% 90%; /* #e4e4e7 */
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+
+    --input-fill: 240 5% 95%; /* soft field fill */
 
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 6.7% 6.3%; /* #0f0f11 */
+    --positive: 156 64% 52%; /* #34d399 */
+    --positive-foreground: 240 5.9% 10%;
+    --foreground: 240 4.8% 95.9%; /* #f4f4f5 */
+
+    --card: 240 5.9% 10%; /* #18181b */
+    --card-foreground: 240 4.8% 95.9%;
+
+    --popover: 240 6.7% 14.9%; /* #232328 */
+    --popover-foreground: 240 4.8% 95.9%;
+
+    --primary: 240 4.8% 95.9%; /* #f4f4f5 */
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 5.3% 12.7%; /* #1f1f23 */
+    --secondary-foreground: 240 4.8% 95.9%;
+
+    --muted: 240 5.3% 12.7%;
+    --muted-foreground: 240 5% 64.9%; /* #a1a1aa */
+
+    --accent: 240 5.3% 12.7%;
+    --accent-foreground: 240 4.8% 95.9%;
+
+    --destructive: 0 83.2% 65.7%; /* #f87171 */
+    --destructive-foreground: 240 5.9% 10%;
+
+    --border: 240 3.7% 15.9%; /* #27272a */
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.8% 95.9%;
+
+    --input-fill: 240 5.3% 12.7%;
   }
 }
 

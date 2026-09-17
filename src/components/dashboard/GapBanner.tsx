@@ -27,16 +27,16 @@ export function GapBanner() {
 
   if (isLoading) {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 animate-pulse" aria-busy="true">
-        <div className="h-4 w-3/4 bg-amber-100 rounded" />
+      <div className="rounded-xl border border-amber-300/60 bg-amber-500/10 p-4 animate-pulse" aria-busy="true">
+        <div className="h-4 w-3/4 bg-amber-500/20 rounded" />
       </div>
     )
   }
 
   if (isError) {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4" role="alert">
-        <p className="text-sm text-neutral-700 flex items-center justify-between">
+      <div className="rounded-xl border border-amber-300/60 bg-amber-500/10 p-4" role="alert">
+        <p className="text-sm flex items-center justify-between">
           <span>Could not check for gaps.</span>
           <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
             Retry
@@ -67,12 +67,12 @@ export function GapBanner() {
 
   return (
     <section
-      className="rounded-lg border border-amber-200 bg-amber-50 p-4"
+      className="rounded-xl border border-amber-300/60 bg-amber-500/10 p-4"
       role="region"
       aria-label="Gap detection banner"
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-sm text-neutral-700">
+        <p className="text-sm text-amber-900 dark:text-amber-200">
           ⚠ You have {gaps.length} untracked month{gaps.length !== 1 ? 's' : ''}: {labels}
         </p>
         <div className="flex gap-2">

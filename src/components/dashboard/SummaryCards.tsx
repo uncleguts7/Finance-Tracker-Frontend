@@ -1,65 +1,139 @@
 import type { ReactNode } from 'react'
+import { BadgeCheck, CheckCircle2, Landmark, TrendingDown, XCircle } from 'lucide-react'
 
 import type { MonthSummary } from '@/lib/types'
 import { cn, formatCurrency, toNumber } from '@/lib/utils'
 
-function SummaryCard({
+function MetricCard({
   label,
-  tone = 'neutral',
-  children,
+  icon,
+  value,
+  chip,
+  caption,
+  captionTone = 'muted',
 }: {
   label: string
-  tone?: 'neutral' | 'positive' | 'negative'
-  children: ReactNode
+  icon: ReactNode
+  value?: ReactNode
+  chip?: ReactNode
+  caption: string
+  captionTone?: 'muted' | 'positive' | 'negative'
 }) {
   return (
-    <div className="rounded-lg border border-neutral-200 bg-white p-4 sm:p-6">
-      <p className="text-sm text-neutral-500">{label}</p>
-      <div
+    <div className="rounded-xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md">
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          {label}
+        </span>
+        {icon}
+      </div>
+      <div className="mt-3 flex items-baseline justify-between gap-2">
+        {value}
+        {chip}
+      </div>
+      <p
         className={cn(
-          'mt-1 font-mono text-2xl font-semibold',
-          tone === 'positive' && 'text-green-600',
-          tone === 'negative' && 'text-red-600',
-          tone === 'neutral' && 'text-neutral-900',
+          'mt-1 text-xs',
+          captionTone === 'positive' && 'font-medium text-positive',
+          captionTone === 'negative' && 'font-medium text-destructive',
+          captionTone === 'muted' && 'text-muted-foreground',
         )}
       >
-        {children}
-      </div>
+        {caption}
+      </p>
     </div>
   )
 }
 
+const metricClass = 'text-[28px] font-semibold leading-8 tracking-tight tabular-nums'
+
+function statusChip(onBudget: boolean) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] font-semibold',
+        onBudget ? 'bg-positive/10 text-positive' : 'bg-destructive/10 text-destructive',
+      )}
+    >
+      <span className={cn('h-2 w-2 rounded-full', onBudget ? 'bg-positive' : 'bg-destructive')} />
+      {onBudget ? 'On budget' : 'Overspent'}
+    </span>
+  )
+}
+
 export function SummaryCards({ summary }: { summary: MonthSummary }) {
+  const income = toNumber(summary.income)
+  const totalSpent = toNumber(summary.total_spent)
   const remaining = toNumber(summary.remaining)
+  const available = toNumber(summary.available_to_spend)
+  const savingsGoal = toNumber(summary.savings_goal)
   const isOverspent = summary.is_overspent === true
-  // Red when negative (§3.2) OR when the month is overspent against the savings goal (§3.4).
-  const remainingTone: 'negative' | 'positive' = remaining < 0 || isOverspent ? 'negative' : 'positive'
+
+  const spentPct = income > 0 ? (totalSpent / income) * 100 : null
+  const remainingPct = income > 0 ? (remaining / income) * 100 : null
+  const safeRoom = available - totalSpent
+  const remainingPositive = remaining >= 0 && !isOverspent
 
   return (
-    <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <SummaryCard label="Total spent" tone="neutral">
-        {formatCurrency(summary.total_spent)}
-      </SummaryCard>
+    <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <MetricCard
+        label="Total Spent"
+        icon={<TrendingDown className="h-4 w-4 text-muted-foreground" />}
+        value={<span className={metricClass}>{formatCurrency(summary.total_spent)}</span>}
+        caption={spentPct != null ? `${spentPct.toFixed(1)}% of total income` : 'No income recorded'}
+      />
 
-      <SummaryCard label="Remaining" tone={remainingTone}>
-        {formatCurrency(summary.remaining)}
-      </SummaryCard>
+      <MetricCard
+        label="Remaining"
+        icon={
+          remainingPositive ? (
+            <CheckCircle2 className="h-4 w-4 text-positive" />
+          ) : (
+            <XCircle className="h-4 w-4 text-destructive" />
+          )
+        }
+        value={<span className={metricClass}>{formatCurrency(summary.remaining)}</span>}
+        chip={
+          remainingPct != null && (
+            <span
+              className={cn(
+                'inline-flex items-center rounded-full px-1.5 py-0.5 text-[11px] font-semibold',
+                remainingPositive
+                  ? 'bg-positive/10 text-positive'
+                  : 'bg-destructive/10 text-destructive',
+              )}
+            >
+              {remainingPct >= 0 ? '+' : ''}
+              {remainingPct.toFixed(1)}%
+            </span>
+          )
+        }
+        caption={remainingPositive ? 'Positive delta surplus' : 'Overdrawn this cycle'}
+        captionTone={remainingPositive ? 'positive' : 'negative'}
+      />
 
-      <SummaryCard label="Available to spend" tone="neutral">
-        {formatCurrency(summary.available_to_spend)}
-      </SummaryCard>
+      <MetricCard
+        label="Available to Spend"
+        icon={<Landmark className="h-4 w-4 text-muted-foreground" />}
+        value={<span className={metricClass}>{formatCurrency(summary.available_to_spend)}</span>}
+        caption={`Post-savings target (${formatCurrency(savingsGoal)})`}
+      />
 
-      <SummaryCard label="Budget" tone="neutral">
-        {isOverspent ? (
-          <span className="inline-block rounded-full bg-red-100 px-2 py-0.5 font-sans text-xs font-medium text-red-700">
-            Overspent
-          </span>
-        ) : (
-          <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 font-sans text-xs font-medium text-green-700">
-            On budget
-          </span>
-        )}
-      </SummaryCard>
+      <MetricCard
+        label="Budget Status"
+        icon={
+          <BadgeCheck
+            className={cn('h-4 w-4', isOverspent ? 'text-destructive' : 'text-positive')}
+          />
+        }
+        value={statusChip(!isOverspent)}
+        caption={
+          isOverspent
+            ? `${formatCurrency(Math.abs(safeRoom))} over target`
+            : `${formatCurrency(safeRoom)} safe room`
+        }
+        captionTone={isOverspent ? 'negative' : 'muted'}
+      />
     </section>
   )
 }

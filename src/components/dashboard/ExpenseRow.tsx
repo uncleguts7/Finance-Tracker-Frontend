@@ -1,6 +1,19 @@
 import { Link } from 'react-router-dom'
+import {
+  Car,
+  Coffee,
+  Cross,
+  Droplets,
+  Flame,
+  Pencil,
+  Shirt,
+  ShoppingCart,
+  Tag,
+  Trash2,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import type { Expense, ExpenseType } from '@/lib/types'
 import { cn, formatCurrency } from '@/lib/utils'
 
@@ -10,42 +23,69 @@ interface ExpenseRowProps {
   onDelete: (expense: Expense) => void
 }
 
-const typeBadgeStyles: Record<ExpenseType, string> = {
-  fixed: 'bg-blue-100 text-blue-700',
-  variable: 'bg-amber-100 text-amber-700',
+/** Best-effort category icon by name; falls back to a generic tag. */
+function categoryIcon(name: string): LucideIcon {
+  const n = name.toLowerCase()
+  if (n.includes('electr')) return Zap
+  if (n.includes('gas') || n.includes('fuel')) return Flame
+  if (n.includes('water')) return Droplets
+  if (n.includes('cloth')) return Shirt
+  if (n.includes('coffee') || n.includes('cafe')) return Coffee
+  if (n.includes('hospital') || n.includes('health') || n.includes('medic')) return Cross
+  if (n.includes('grocer') || n.includes('food')) return ShoppingCart
+  if (n.includes('transport') || n.includes('car')) return Car
+  return Tag
+}
+
+const typeChipStyles: Record<ExpenseType, string> = {
+  fixed: 'bg-slate-200/70 text-slate-600 dark:bg-slate-700/40 dark:text-slate-300',
+  variable: 'bg-amber-200/70 text-amber-900 dark:bg-amber-400/20 dark:text-amber-300',
 }
 
 export function ExpenseRow({ expense, categoryName, onDelete }: ExpenseRowProps) {
+  const Icon = categoryIcon(categoryName)
+
   return (
-    <tr className="border-t border-neutral-200">
-      <td className="px-4 py-3 text-sm text-neutral-700">{expense.date}</td>
-      <td className="px-4 py-3 text-sm text-neutral-700">{categoryName}</td>
-      <td className="px-4 py-3">
-        <span
-          className={cn(
-            'inline-block rounded-full px-2 py-0.5 text-xs font-medium capitalize',
-            typeBadgeStyles[expense.type],
-          )}
-        >
-          {expense.type}
+    <tr className="group transition-colors duration-100 hover:bg-secondary/60">
+      <td className="whitespace-nowrap px-5 py-2 text-sm tabular-nums">{expense.date}</td>
+      <td className="px-3 py-2">
+        <span className="flex items-center gap-2 text-sm font-medium">
+          <Icon className="h-4 w-4 text-muted-foreground" />
+          {categoryName}
         </span>
       </td>
-      <td className="px-4 py-3 text-right font-mono text-sm text-neutral-900">
+      <td className="whitespace-nowrap px-3 py-2">
+        <span
+          className={cn(
+            'inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium',
+            typeChipStyles[expense.type],
+          )}
+        >
+          {expense.type === 'fixed' ? 'Fixed' : 'Variable'}
+        </span>
+      </td>
+      <td className="whitespace-nowrap px-5 py-2 text-right text-sm font-medium tabular-nums">
         {formatCurrency(expense.amount)}
       </td>
-      <td className="px-4 py-3 text-right">
-        <div className="flex justify-end gap-1">
-          <Button asChild variant="ghost" size="sm">
-            <Link to={`/expenses/${expense.id}/edit`}>Edit</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-red-600 hover:text-red-700"
-            onClick={() => onDelete(expense)}
+      <td className="whitespace-nowrap px-5 py-2 text-right">
+        <div className="inline-flex items-center gap-1 text-muted-foreground opacity-80 transition-opacity group-hover:opacity-100">
+          <Link
+            to={`/expenses/${expense.id}/edit`}
+            title="Edit expense"
+            aria-label={`Edit ${categoryName} expense`}
+            className="rounded p-1 transition-colors hover:text-foreground"
           >
-            Delete
-          </Button>
+            <Pencil className="h-4 w-4" />
+          </Link>
+          <button
+            type="button"
+            title="Delete expense"
+            aria-label={`Delete ${categoryName} expense`}
+            onClick={() => onDelete(expense)}
+            className="rounded p-1 transition-colors hover:text-destructive"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
         </div>
       </td>
     </tr>
