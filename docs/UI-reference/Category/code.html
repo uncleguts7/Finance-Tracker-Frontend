@@ -1,0 +1,846 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>Finance Tracker</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#fbf8ff", "on-primary-container": "#7d8497", "primary-fixed": "#dce2f7", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffddb8", "inverse-surface": "#2f3038", "surface-container-low": "#f4f2fd", "tertiary": "#000000", "primary": "#000000", "on-secondary": "#ffffff", "tertiary-fixed-dim": "#ffb95f", "surface-container-highest": "#e3e1ec", "on-primary-fixed-variant": "#404758", "surface-container": "#eeedf7", "error-container": "#ffdad6", "inverse-primary": "#c0c6db", "secondary": "#006c49", "surface": "#fbf8ff", "on-surface-variant": "#45464c", "on-primary": "#ffffff", "on-surface": "#1a1b22", "surface-container-high": "#e8e7f1", "on-error": "#ffffff", "surface-variant": "#e3e1ec", "inverse-on-surface": "#f1effa", "on-tertiary-container": "#b87500", "secondary-container": "#6cf8bb", "on-secondary-fixed": "#002113", "secondary-fixed-dim": "#4edea3", "primary-container": "#141b2b", "surface-bright": "#fbf8ff", "on-tertiary-fixed": "#2a1700", "on-error-container": "#93000a", "tertiary-container": "#2a1700", "on-secondary-container": "#00714d", "outline": "#76777d", "error": "#ba1a1a", "on-tertiary-fixed-variant": "#653e00", "primary-fixed-dim": "#c0c6db", "outline-variant": "#c6c6cd", "surface-tint": "#575e70", "on-secondary-fixed-variant": "#005236", "secondary-fixed": "#6ffbbe", "surface-container-lowest": "#ffffff", "on-primary-fixed": "#141b2b", "on-background": "#1a1b22", "surface-dim": "#dad9e3" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-lg": "1.25rem", "gutter": "1rem", "margin-lg": "2.5rem", "gutter-lg": "1.5rem", "space-xl": "2rem", "margin-md": "1.5rem", "space-sm": "0.5rem", "space-md": "0.75rem", "space-xs": "0.25rem", "margin": "1rem" }, "fontFamily": { "body-md": ["Inter"], "numeric-metric": ["Inter"], "body-sm": ["Inter"], "headline-xl-mobile": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"], "numeric-table": ["Inter"], "body-lg": ["Inter"], "headline-xl": ["Inter"], "headline-sm": ["Inter"] }, "fontSize": { "body-md": ["0.875rem", { "lineHeight": "1.375rem", "letterSpacing": "-0.005em", "fontWeight": "400" }], "numeric-metric": ["1.75rem", { "lineHeight": "2rem", "letterSpacing": "-0.03em", "fontWeight": "600" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "letterSpacing": "0", "fontWeight": "400" }], "headline-xl-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.025em", "fontWeight": "600" }], "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0", "fontWeight": "500" }], "numeric-table": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "400" }], "headline-xl": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.03em", "fontWeight": "600" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-surface-container-high selection:text-primary"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant"><div class="h-16 w-full max-w-7xl mx-auto px-gutter-lg flex items-center justify-between gap-space-lg"><div class="flex items-center gap-margin-lg"><a class="flex items-center gap-space-sm group focus:outline-none" data-path="dashboard" href="#"><div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span></div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-on-surface-variant transition-colors">Finance Tracker</span></a><nav class="hidden md:flex items-center gap-space-xs p-space-xs rounded-lg" data-active-classes="bg-surface-container-high text-on-surface font-label-md text-label-md"><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="dashboard" href="#">Dashboard</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-surface-container-high text-on-surface font-label-md text-label-md" data-path="categories" href="#">Categories</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="settings" href="#">Settings</a></nav></div><div class="flex items-center gap-space-md"><button aria-label="Toggle Light and Dark Mode" class="h-9 w-9 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center focus:outline-none" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[18px] dark:hidden">dark_mode</span><span class="material-symbols-outlined text-[18px] hidden dark:inline">light_mode</span></button><div class="flex items-center gap-space-md pl-space-xs"><div class="hidden lg:flex flex-col text-right leading-none"><span class="font-label-md text-label-md text-on-surface font-medium">Mario</span><span class="font-body-sm text-body-sm text-on-surface-variant">mario@example.com</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-outline-variant"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="w-full max-w-7xl mx-auto px-gutter-lg py-margin-lg"><div class="flex flex-col w-full">
+<!-- Top Ambient Glow & Structural Container -->
+<div class="relative w-full">
+<div class="absolute -top-12 right-12 w-96 h-96 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-48 -left-16 w-80 h-80 rounded-full bg-primary-fixed/30 blur-3xl pointer-events-none -z-10"></div>
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-semibold">Ledger Configuration</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Live Rules</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">Categories</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Manage default category rules and expense classifications. Automatic routing applies on all connected financial streams.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs md:pt-0">
+<button class="h-9 px-space-md rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-inverse-surface active:scale-[0.98] transition-all duration-150 flex items-center gap-space-xs shadow-sm" id="open-new-modal" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="">+ New Category</span>
+</button>
+</div>
+</div>
+<!-- Metric Snapshot Bento -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md py-space-md">
+<!-- Total Categories -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold tracking-wider">Total Entities</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">folder_copy</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-numeric-metric text-numeric-metric text-on-surface" id="metric-total-count">6</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Categories</span>
+</div>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant">Active</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-md overflow-hidden">
+<div class="bg-primary h-full rounded-full w-full"></div>
+</div>
+</div>
+<!-- Fixed Outflows -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold tracking-wider">Fixed Overhead</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">lock_clock</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-numeric-metric text-numeric-metric text-on-surface" id="metric-fixed-count">4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Categories</span>
+</div>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-medium">66.7%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-md overflow-hidden">
+<div class="bg-on-surface-variant h-full rounded-full" style="width: 66.7%;"></div>
+</div>
+</div>
+<!-- Variable Discretionary -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold tracking-wider">Variable Flow</span>
+<div class="w-7 h-7 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[16px]">dynamic_form</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-numeric-metric text-numeric-metric text-on-surface" id="metric-variable-count">2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Categories</span>
+</div>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-medium">33.3%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-md overflow-hidden">
+<div class="bg-on-tertiary-container h-full rounded-full" style="width: 33.3%;"></div>
+</div>
+</div>
+<!-- System Defaults Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold tracking-wider">System Locked</span>
+<div class="w-7 h-7 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Protected</span>
+</div>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-medium">Core Core</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-md overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 50%;"></div>
+</div>
+</div>
+</div>
+<!-- Visual Polish Banner: Architecture Overview with Mini Visualization -->
+
+<!-- Main Workspace Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm mt-space-md overflow-hidden">
+<!-- Controls Toolbar -->
+<div class="p-space-md flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-sm bg-surface-container-low/40">
+<!-- Search Input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant pointer-events-none">search</span>
+<input class="w-full h-9 pl-9 pr-8 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md shadow-sm focus:outline-none focus:ring-1 focus:ring-on-surface transition-all" id="category-search" placeholder="Search categories by label or type..." type="text">
+<button class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" id="clear-search" type="button">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+</button>
+</div>
+<!-- Filter Segment Buttons -->
+<div class="flex items-center gap-space-xs self-start md:self-auto overflow-x-auto w-full md:w-auto">
+<button class="filter-btn h-8 px-space-md rounded-lg font-label-md text-label-md transition-all duration-150 bg-primary text-on-primary font-semibold shadow-sm" data-filter="all">
+            All <span class="ml-1 opacity-70">(6)</span>
+</button>
+<button class="filter-btn h-8 px-space-md rounded-lg font-label-md text-label-md transition-all duration-150 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="fixed">
+            Fixed <span class="ml-1 opacity-70">(4)</span>
+</button>
+<button class="filter-btn h-8 px-space-md rounded-lg font-label-md text-label-md transition-all duration-150 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="variable">
+            Variable <span class="ml-1 opacity-70">(2)</span>
+</button>
+<button class="filter-btn h-8 px-space-md rounded-lg font-label-md text-label-md transition-all duration-150 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="defaults">
+            Defaults Only <span class="ml-1 opacity-70">(3)</span>
+</button>
+</div>
+</div>
+<!-- Categories Table (Desktop & Tablet) -->
+<div class="hidden md:block w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant">
+<th class="py-space-sm px-space-lg font-label-sm text-label-sm uppercase tracking-wider font-semibold w-12" scope="col">#</th>
+<th class="py-space-sm px-space-lg font-label-sm text-label-sm uppercase tracking-wider font-semibold" scope="col">Name</th>
+<th class="py-space-sm px-space-lg font-label-sm text-label-sm uppercase tracking-wider font-semibold" scope="col">Default Type</th>
+<th class="py-space-sm px-space-lg font-label-sm text-label-sm uppercase tracking-wider font-semibold" scope="col">Rule Status</th>
+<th class="py-space-sm px-space-lg font-label-sm text-label-sm uppercase tracking-wider font-semibold text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-transparent" id="category-table-body">
+<!-- Row 1: Electricity -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="true" data-name="electricity" data-type="fixed">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">01</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Electricity</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Utility invoice recurring rule</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Fixed
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                  DEFAULT
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="true" data-name="Electricity" data-type="Fixed" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Electricity" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Gas -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="true" data-name="gas" data-type="fixed">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">02</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Gas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Heating &amp; kitchen utilities</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Fixed
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                  DEFAULT
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="true" data-name="Gas" data-type="Fixed" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Gas" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Water -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="true" data-name="water" data-type="fixed">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">03</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Water</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Municipal billings &amp; sewerage</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Fixed
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                  DEFAULT
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="true" data-name="Water" data-type="Fixed" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Water" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Clothes -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="false" data-name="clothes" data-type="variable">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">04</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">apparel</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Clothes</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Apparel, footwear, accessories</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  Variable
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+                  Custom Rule
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="false" data-name="Clothes" data-type="Variable" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Clothes" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Coffe -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="false" data-name="coffe coffee" data-type="variable">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">05</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">coffee</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Coffe</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cafes, beans, daily roasts</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  Variable
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+                  Custom Rule
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="false" data-name="Coffe" data-type="Variable" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Coffe" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Hospital -->
+<tr class="category-row group hover:bg-surface-container-low/70 transition-colors duration-150 h-14" data-default="false" data-name="hospital" data-type="fixed">
+<td class="px-space-lg py-space-sm font-numeric-table text-numeric-table text-on-surface-variant">06</td>
+<td class="px-space-lg py-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">local_hospital</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface item-name">Hospital</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Medical insurance retainers &amp; health</span>
+</div>
+</div>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Fixed
+                </span>
+</td>
+<td class="px-space-lg py-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+                  Custom Rule
+                </span>
+</td>
+<td class="px-space-lg py-space-sm text-right">
+<div class="inline-flex items-center gap-space-xs opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="edit-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" data-action="edit" data-default="false" data-name="Hospital" data-type="Fixed" title="Edit Category" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn h-8 w-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" data-action="delete" data-name="Hospital" title="Delete Category" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Mobile List View (Stacked Cards) -->
+<div class="md:hidden flex flex-col divide-y-0 p-space-md gap-space-sm" id="mobile-cards-container">
+<!-- Card 1 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="true" data-name="electricity" data-type="fixed">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Electricity</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Recurring</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">
+              DEFAULT
+            </span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">Fixed</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="true" data-name="Electricity" data-type="Fixed" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Electricity" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="true" data-name="gas" data-type="fixed">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Gas</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Recurring</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">
+              DEFAULT
+            </span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">Fixed</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="true" data-name="Gas" data-type="Fixed" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Gas" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="true" data-name="water" data-type="fixed">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Water</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Recurring</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">
+              DEFAULT
+            </span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">Fixed</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="true" data-name="Water" data-type="Fixed" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Water" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="false" data-name="clothes" data-type="variable">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">apparel</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Clothes</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Custom Tag</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Custom</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">Variable</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="false" data-name="Clothes" data-type="Variable" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Clothes" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="false" data-name="coffe coffee" data-type="variable">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">coffee</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Coffe</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Custom Tag</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Custom</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">Variable</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="false" data-name="Coffe" data-type="Variable" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Coffe" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="mobile-category-card bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm shadow-sm" data-default="false" data-name="hospital" data-type="fixed">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">local_hospital</span>
+</div>
+<div>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Hospital</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Custom Tag</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Custom</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium">Fixed</span>
+<div class="flex items-center gap-space-xs">
+<button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-action="edit" data-default="false" data-name="Hospital" data-type="Fixed" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40" data-action="delete" data-name="Hospital" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Filter Feedback -->
+<div class="hidden p-space-xl flex-col items-center justify-center text-center" id="empty-filter-state">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant mb-space-sm">
+<span class="material-symbols-outlined text-[24px]">filter_alt_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No categories match your criteria</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mt-1">Try relaxing the search filter or resetting query tags.</p>
+<button class="mt-space-md h-8 px-space-md rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-variant transition-colors" id="reset-filter-btn" type="button">
+          Clear Filters
+        </button>
+</div>
+<!-- Footer Table Meta -->
+<div class="px-space-lg py-space-md bg-surface-container-low/40 flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span class="">Changes are instantaneously mirrored across transactional ledger rules.</span>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-numeric-table text-numeric-table">
+<span id="showing-count-label" class="">Showing 6 of 6 categories</span>
+</div>
+</div>
+</div>
+<!-- Editorial Contextual Showcase Gallery (Visual Richness / 2 Cards) -->
+</div>
+<!-- Interactive Category Modal (Add / Edit) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center p-gutter" id="category-modal">
+<!-- Frosted Backdrop -->
+<div class="absolute inset-0 bg-inverse-surface/30 backdrop-blur-sm transition-opacity" id="modal-backdrop"></div>
+<!-- Modal Content Window -->
+<div class="relative w-full max-w-md rounded-xl bg-surface-container-lowest shadow-xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150">
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" id="modal-icon">category</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="modal-title">New Category</h3>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" id="close-modal-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="p-space-lg flex flex-col gap-space-md" id="category-form">
+<input id="category-edit-origin" type="hidden" value="">
+<!-- Name Input -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-medium" for="category-name-input">Category Name</label>
+<input class="w-full h-9 px-space-md rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-on-surface transition-all" id="category-name-input" placeholder="e.g. Broadband, Groceries, Gym" required="" type="text">
+</div>
+<!-- Default Classification Type -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-medium">Expense Behavior</label>
+<div class="grid grid-cols-2 gap-space-xs">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="modal-category-type" type="radio" value="Fixed">
+<div class="h-10 rounded-lg bg-surface-container-low peer-checked:bg-primary peer-checked:text-on-primary text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-space-xs transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">lock_clock</span>
+<span class="">Fixed</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="modal-category-type" type="radio" value="Variable">
+<div class="h-10 rounded-lg bg-surface-container-low peer-checked:bg-primary peer-checked:text-on-primary text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-space-xs transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span class="">Variable</span>
+</div>
+</label>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Fixed flows recur invariably each billing cycle.</span>
+</div>
+<!-- System Default Toggle -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-medium">Mark as System Default</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Auto-classify transactions lacking tags</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="modal-default-toggle" type="checkbox">
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="h-9 px-space-md rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" id="cancel-modal-btn" type="button">
+            Cancel
+          </button>
+<button class="h-9 px-space-lg rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-inverse-surface shadow-sm transition-colors" type="submit">
+            Save Rule
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Micro Toast Confirmation -->
+<div class="fixed bottom-6 right-6 z-50 hidden items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-inverse-surface text-inverse-on-surface shadow-xl font-label-md text-label-md transition-all duration-200" id="toast">
+<span class="material-symbols-outlined text-[18px] text-secondary-container" id="toast-icon">check_circle</span>
+<span id="toast-msg" class="">Operation finished</span>
+</div>
+<!-- Client-Side Controller -->
+<script>
+    (function () {
+      const searchInput = document.getElementById('category-search');
+      const clearSearchBtn = document.getElementById('clear-search');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const tableRows = document.querySelectorAll('.category-row');
+      const mobileCards = document.querySelectorAll('.mobile-category-card');
+      const emptyState = document.getElementById('empty-filter-state');
+      const showingCountLabel = document.getElementById('showing-count-label');
+      const resetFilterBtn = document.getElementById('reset-filter-btn');
+
+      const modal = document.getElementById('category-modal');
+      const openNewBtn = document.getElementById('open-new-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const cancelModalBtn = document.getElementById('cancel-modal-btn');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      const categoryForm = document.getElementById('category-form');
+      const modalTitle = document.getElementById('modal-title');
+      const modalNameInput = document.getElementById('category-name-input');
+      const modalDefaultToggle = document.getElementById('modal-default-toggle');
+      const categoryOriginInput = document.getElementById('category-edit-origin');
+
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+
+      let currentFilter = 'all';
+      let searchQuery = '';
+
+      function showToast(message, isSuccess = true) {
+        toastMsg.textContent = message;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('flex');
+        }, 3000);
+      }
+
+      function filterItems() {
+        let visibleCount = 0;
+        const totalItems = tableRows.length;
+
+        tableRows.forEach(row => {
+          const name = row.getAttribute('data-name') || '';
+          const type = row.getAttribute('data-type') || '';
+          const isDefault = row.getAttribute('data-default') === 'true';
+
+          let matchesFilter = true;
+          if (currentFilter === 'fixed') matchesFilter = (type === 'fixed');
+          else if (currentFilter === 'variable') matchesFilter = (type === 'variable');
+          else if (currentFilter === 'defaults') matchesFilter = isDefault;
+
+          const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
+
+          if (matchesFilter && matchesSearch) {
+            row.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            row.classList.add('hidden');
+          }
+        });
+
+        mobileCards.forEach(card => {
+          const name = card.getAttribute('data-name') || '';
+          const type = card.getAttribute('data-type') || '';
+          const isDefault = card.getAttribute('data-default') === 'true';
+
+          let matchesFilter = true;
+          if (currentFilter === 'fixed') matchesFilter = (type === 'fixed');
+          else if (currentFilter === 'variable') matchesFilter = (type === 'variable');
+          else if (currentFilter === 'defaults') matchesFilter = isDefault;
+
+          const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
+
+          if (matchesFilter && matchesSearch) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        showingCountLabel.textContent = `Showing ${visibleCount} of ${totalItems} categories`;
+
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+        } else {
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+        }
+      }
+
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        if (searchQuery.length > 0) {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        filterItems();
+      });
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        clearSearchBtn.classList.add('hidden');
+        filterItems();
+      });
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-sm');
+            b.classList.add('bg-surface-container', 'text-on-surface-variant');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-sm');
+          btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+
+          currentFilter = btn.getAttribute('data-filter');
+          filterItems();
+        });
+      });
+
+      resetFilterBtn.addEventListener('click', () => {
+        searchQuery = '';
+        searchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        currentFilter = 'all';
+        filterBtns[0].click();
+      });
+
+      // Modal Controls
+      function openModal(mode = 'create', categoryData = null) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        if (mode === 'edit' && categoryData) {
+          modalTitle.textContent = `Edit "${categoryData.name}"`;
+          modalNameInput.value = categoryData.name;
+          categoryOriginInput.value = categoryData.name;
+          modalDefaultToggle.checked = (categoryData.default === 'true');
+          const radio = document.querySelector(`input[name="modal-category-type"][value="${categoryData.type}"]`);
+          if (radio) radio.checked = true;
+        } else {
+          modalTitle.textContent = "New Category";
+          categoryForm.reset();
+          categoryOriginInput.value = '';
+          modalDefaultToggle.checked = false;
+        }
+        setTimeout(() => modalNameInput.focus(), 50);
+      }
+
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      openNewBtn.addEventListener('click', () => openModal('create'));
+      closeModalBtn.addEventListener('click', closeModal);
+      cancelModalBtn.addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', closeModal);
+
+      // Actions Delegation
+      document.addEventListener('click', (e) => {
+        const editBtn = e.target.closest('.edit-btn');
+        if (editBtn) {
+          const name = editBtn.getAttribute('data-name');
+          const type = editBtn.getAttribute('data-type');
+          const isDefault = editBtn.getAttribute('data-default');
+          openModal('edit', { name, type, default: isDefault });
+          return;
+        }
+
+        const deleteBtn = e.target.closest('.delete-btn');
+        if (deleteBtn) {
+          const name = deleteBtn.getAttribute('data-name');
+          const row = deleteBtn.closest('.category-row');
+          const mobileCard = document.querySelector(`.mobile-category-card[data-name*="${name.toLowerCase()}"]`);
+
+          if (confirm(`Are you sure you want to remove the category rule "${name}"?`)) {
+            if (row) row.remove();
+            if (mobileCard) mobileCard.remove();
+            showToast(`Category "${name}" removed`);
+            filterItems();
+          }
+        }
+      });
+
+      categoryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameVal = modalNameInput.value.trim();
+        const originVal = categoryOriginInput.value;
+        closeModal();
+        if (originVal) {
+          showToast(`Category "${originVal}" updated to "${nameVal}"`);
+        } else {
+          showToast(`Category "${nameVal}" created successfully`);
+        }
+      });
+
+      const batchBtn = document.getElementById('quick-preset-btn');
+      if (batchBtn) {
+        batchBtn.addEventListener('click', () => {
+          showToast("Batch categorization rules checked (6 verified)");
+        });
+      }
+    })();
+  </script>
+</div></div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant mt-margin-lg"><div class="max-w-7xl mx-auto px-gutter-lg py-space-xl flex flex-col sm:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[16px]">lock</span><span class="">256-bit encrypted personal wealth tracking</span></div><div class="text-on-surface-variant font-body-sm text-body-sm">© 2024 Finance Tracker Systems. Precision Architecture.</div></div></footer>
+
+</body></html>

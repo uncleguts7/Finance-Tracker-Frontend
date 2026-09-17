@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { FolderPlus, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,9 +13,7 @@ import { applyServerErrors } from '@/lib/formErrors'
 import { categorySchema, type CategoryInput } from '@/lib/schemas'
 import type { Category } from '@/lib/types'
 import { cn } from '@/lib/utils'
-
-const selectClasses =
-  'h-10 w-full rounded-md border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+import { TypeRadioField } from './CategoryFormFields'
 
 interface CreateCategoryModalProps {
   open: boolean
@@ -81,52 +80,65 @@ export function CreateCategoryModal({ open, onClose, onSuccess }: CreateCategory
       onClick={(event) => {
         if (event.target === dialogRef.current) onClose()
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-lg border border-neutral-200 bg-white p-6 shadow-xl"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-xl border border-border bg-card p-0 text-card-foreground shadow-xl backdrop:bg-black/30 backdrop:backdrop-blur-sm"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <h2 className="text-lg font-semibold text-neutral-900">New Category</h2>
+      <div className="flex items-center justify-between border-b border-border bg-muted/40 p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <FolderPlus className="h-4 w-4" />
+          </div>
+          <h2 className="text-base font-semibold tracking-tight">New Category</h2>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
 
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-5">
         {formError && (
           <p
             role="alert"
-            className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+            className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
           >
             {formError}
           </p>
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Category Name</Label>
           <Input
             id="name"
-            placeholder="e.g. Groceries"
+            placeholder="e.g. Broadband, Groceries, Gym"
             autoFocus
             aria-invalid={!!form.formState.errors.name}
-            className={cn(form.formState.errors.name && 'border-red-500 focus-visible:ring-red-500')}
+            className={cn(
+              'bg-muted/50',
+              form.formState.errors.name && 'border-destructive focus-visible:ring-destructive',
+            )}
             {...form.register('name')}
           />
           {form.formState.errors.name && (
-            <p className="text-sm text-red-600">{form.formState.errors.name.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="default_type">Default Type</Label>
-          <select
-            id="default_type"
-            aria-invalid={!!form.formState.errors.default_type}
-            className={cn(selectClasses, form.formState.errors.default_type && 'border-red-500 focus-visible:ring-red-500')}
-            {...form.register('default_type')}
-          >
-            <option value="fixed">Fixed</option>
-            <option value="variable">Variable</option>
-          </select>
+          <Label>Expense Behavior</Label>
+          <TypeRadioField control={form.control} />
+          <p className="text-xs text-muted-foreground">
+            Fixed flows recur invariably each billing cycle.
+          </p>
           {form.formState.errors.default_type && (
-            <p className="text-sm text-red-600">{form.formState.errors.default_type.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.default_type.message}</p>
           )}
         </div>
 
-        <div className="flex justify-end gap-3 pt-2">
+        <div className="flex items-center justify-end gap-2 pt-1">
           <Button type="button" variant="outline" onClick={onClose} disabled={createMutation.isPending}>
             Cancel
           </Button>
@@ -137,7 +149,7 @@ export function CreateCategoryModal({ open, onClose, onSuccess }: CreateCategory
                 aria-hidden="true"
               />
             )}
-            {createMutation.isPending ? 'Creating…' : 'Create'}
+            {createMutation.isPending ? 'Creating…' : 'Save Rule'}
           </Button>
         </div>
       </form>

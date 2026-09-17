@@ -63,12 +63,12 @@ export function DeleteConfirmDialog({ open, category, onClose }: DeleteConfirmDi
       onClick={(event) => {
         if (event.target === dialogRef.current) onClose()
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-lg border border-neutral-200 bg-white p-6 shadow-xl"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-xl border border-border bg-card p-6 text-card-foreground shadow-xl backdrop:bg-black/30 backdrop:backdrop-blur-sm"
     >
-      <h2 className="text-lg font-semibold text-neutral-900">
+      <h2 className="text-lg font-semibold text-foreground">
         Delete "{category.name}"?
       </h2>
-      <div className="mt-2 text-sm text-neutral-500">
+      <div className="mt-2 text-sm text-muted-foreground">
         <p>This hides it from future expense selection but preserves all historical data.</p>
         <p className="mt-1">Past months&apos; totals and breakdowns will not change.</p>
       </div>
