@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import type { Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { ChevronDown, Lock } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,18 +14,19 @@ import { api, ApiError } from '@/lib/api'
 import { applyServerErrors } from '@/lib/formErrors'
 import { createExpenseSchema, type ExpenseInput } from '@/lib/schemas'
 import type { Category, Expense } from '@/lib/types'
-import { cn, todayISO } from '@/lib/utils'
+import { cn, currencySymbol, todayISO } from '@/lib/utils'
 
 const LAST_CATEGORY_KEY = 'lastExpenseCategoryId'
 
-const selectClasses =
-  'h-10 w-full rounded-md border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+// Stitch reference fields: flat tinted fill, 6px corners, crisp focus ring, no border.
+const fieldClasses =
+  'h-10 w-full rounded-md border-transparent bg-secondary px-3 py-1 text-sm text-foreground transition-colors focus-visible:bg-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60'
 
 const ADD_CATEGORY_OPTION_VALUE = -1
 
 interface ExpenseFormProps {
   initialData?: Expense // undefined = create mode
-  onSuccess: () => void // navigate away (Save) — reset handled internally for "add another"
+  onSuccess: () => void // close overlay / navigate — reset handled internally for "add another"
 }
 
 type SubmitIntent = 'save' | 'add-another'
@@ -226,103 +228,160 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
 
   return (
     <>
-      <form onSubmit={handleSave} noValidate className="space-y-4">
+      <form onSubmit={handleSave} noValidate className="flex flex-col gap-5">
         {formError && (
           <p
             role="alert"
-            className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+            className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
           >
             {formError}
           </p>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="amount">Amount</Label>
-          <Input
-            id="amount"
-            type="number"
-            inputMode="decimal"
-            step="0.01"
-            min="0"
-            placeholder="0.00"
-            autoFocus
-            aria-invalid={!!form.formState.errors.amount}
-            className={cn(form.formState.errors.amount && 'border-red-500 focus-visible:ring-red-500')}
-            {...form.register('amount', { valueAsNumber: true })}
-          />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="amount" className="text-[13px] font-medium">
+            Amount
+          </Label>
+          <div className="relative flex items-center">
+            <span className="pointer-events-none absolute left-3 text-sm tabular-nums text-muted-foreground select-none">
+              {currencySymbol}
+            </span>
+            <Input
+              id="amount"
+              type="number"
+              inputMode="decimal"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+              autoFocus
+              aria-invalid={!!form.formState.errors.amount}
+              className={cn(
+                fieldClasses,
+                'pl-8 tabular-nums',
+                form.formState.errors.amount && 'ring-1 ring-destructive',
+              )}
+              {...form.register('amount', { valueAsNumber: true })}
+            />
+          </div>
           {form.formState.errors.amount && (
-            <p className="text-sm text-red-600">{form.formState.errors.amount.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.amount.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="date">Date</Label>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="date" className="text-[13px] font-medium">
+            Date
+          </Label>
           <Input
             id="date"
             type="date"
             aria-invalid={!!form.formState.errors.date}
-            className={cn(form.formState.errors.date && 'border-red-500 focus-visible:ring-red-500')}
+            className={cn(
+              fieldClasses,
+              'tabular-nums',
+              form.formState.errors.date && 'ring-1 ring-destructive',
+            )}
             {...form.register('date')}
           />
           {form.formState.errors.date && (
-            <p className="text-sm text-red-600">{form.formState.errors.date.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="type">Type</Label>
-          <select
-            id="type"
-            disabled={isTypeDisabled}
-            aria-invalid={!!form.formState.errors.type}
-            aria-disabled={isTypeDisabled}
-            className={cn(
-              selectClasses,
-              form.formState.errors.type && 'border-red-500 focus-visible:ring-red-500',
-              isTypeDisabled && 'opacity-50 cursor-not-allowed',
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="type" className="text-[13px] font-medium">
+              Type
+            </Label>
+            {isTypeDisabled && (
+              <span className="rounded bg-secondary px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                Locked by category
+              </span>
             )}
-            {...form.register('type')}
-          >
-            <option value="fixed">Fixed</option>
-            <option value="variable">Variable</option>
-          </select>
+          </div>
+          {isTypeDisabled ? (
+            <div className="relative flex items-center">
+              <Input
+                id="type"
+                readOnly
+                disabled
+                value="Fixed"
+                className={cn(fieldClasses, 'cursor-not-allowed pr-9 text-muted-foreground')}
+              />
+              <Lock className="absolute right-3 h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            </div>
+          ) : (
+            <div className="relative flex items-center">
+              <select
+                id="type"
+                aria-invalid={!!form.formState.errors.type}
+                className={cn(
+                  fieldClasses,
+                  'appearance-none pr-9 cursor-pointer',
+                  form.formState.errors.type && 'ring-1 ring-destructive',
+                )}
+                {...form.register('type')}
+              >
+                <option value="fixed">Fixed</option>
+                <option value="variable">Variable</option>
+              </select>
+              <ChevronDown
+                className="pointer-events-none absolute right-3 h-4 w-4 text-muted-foreground"
+                aria-hidden="true"
+              />
+            </div>
+          )}
           {form.formState.errors.type && (
-            <p className="text-sm text-red-600">{form.formState.errors.type.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.type.message}</p>
           )}
           {isTypeDisabled && (
-            <p className="text-xs text-neutral-500">Type is determined by the selected category (Fixed)</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Type is determined by the selected category (Fixed)
+            </p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="category_id">Category</Label>
-          <select
-            id="category_id"
-            disabled={categoriesLoading}
-            aria-invalid={!!form.formState.errors.category_id}
-            className={cn(
-              selectClasses,
-              form.formState.errors.category_id && 'border-red-500 focus-visible:ring-red-500',
-            )}
-            {...form.register('category_id', { valueAsNumber: true })}
-          >
-            <option value="">{categoriesLoading ? 'Loading…' : 'Select a category'}</option>
-            {(categories ?? []).map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name} ({c.default_type})
-              </option>
-            ))}
-            <option value={ADD_CATEGORY_OPTION_VALUE} className="font-medium text-blue-600">
-              + Add Category
-            </option>
-          </select>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="category_id" className="text-[13px] font-medium">
+            Category
+          </Label>
+          <div className="relative flex items-center">
+            <select
+              id="category_id"
+              disabled={categoriesLoading}
+              aria-invalid={!!form.formState.errors.category_id}
+              className={cn(
+                fieldClasses,
+                'appearance-none pr-9 cursor-pointer',
+                form.formState.errors.category_id && 'ring-1 ring-destructive',
+              )}
+              {...form.register('category_id', { valueAsNumber: true })}
+            >
+              <option value="">{categoriesLoading ? 'Loading…' : 'Select a category'}</option>
+              {(categories ?? []).map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} ({c.default_type})
+                </option>
+              ))}
+              <option value={ADD_CATEGORY_OPTION_VALUE}>+ Add Category</option>
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute right-3 h-4 w-4 text-muted-foreground"
+              aria-hidden="true"
+            />
+          </div>
           {form.formState.errors.category_id && (
-            <p className="text-sm text-red-600">{form.formState.errors.category_id.message}</p>
+            <p className="text-sm text-destructive">{form.formState.errors.category_id.message}</p>
           )}
         </div>
 
-        <div className="flex gap-3 pt-2">
-          <Button type="submit" disabled={submitDisabled} aria-busy={isSubmitting}>
+        <div className="flex flex-col gap-2 pt-3">
+          <Button
+            type="submit"
+            disabled={submitDisabled}
+            aria-busy={isSubmitting}
+            className="h-10 w-full"
+          >
             {isSubmitting && (
               <span
                 className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
@@ -335,6 +394,7 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
             <Button
               type="button"
               variant="outline"
+              className="h-10 w-full"
               disabled={submitDisabled}
               onClick={handleSaveAndAnother}
             >

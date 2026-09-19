@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   Car,
   Coffee,
@@ -20,6 +19,7 @@ import { cn, formatCurrency } from '@/lib/utils'
 interface ExpenseRowProps {
   expense: Expense
   categoryName: string
+  onEdit: (expense: Expense) => void
   onDelete: (expense: Expense) => void
 }
 
@@ -42,7 +42,7 @@ const typeChipStyles: Record<ExpenseType, string> = {
   variable: 'bg-amber-200/70 text-amber-900 dark:bg-amber-400/20 dark:text-amber-300',
 }
 
-export function ExpenseRow({ expense, categoryName, onDelete }: ExpenseRowProps) {
+export function ExpenseRow({ expense, categoryName, onEdit, onDelete }: ExpenseRowProps) {
   const Icon = categoryIcon(categoryName)
 
   return (
@@ -69,14 +69,15 @@ export function ExpenseRow({ expense, categoryName, onDelete }: ExpenseRowProps)
       </td>
       <td className="whitespace-nowrap px-5 py-2 text-right">
         <div className="inline-flex items-center gap-1 text-muted-foreground opacity-80 transition-opacity group-hover:opacity-100">
-          <Link
-            to={`/expenses/${expense.id}/edit`}
+          <button
+            type="button"
             title="Edit expense"
             aria-label={`Edit ${categoryName} expense`}
+            onClick={() => onEdit(expense)}
             className="rounded p-1 transition-colors hover:text-foreground"
           >
             <Pencil className="h-4 w-4" />
-          </Link>
+          </button>
           <button
             type="button"
             title="Delete expense"

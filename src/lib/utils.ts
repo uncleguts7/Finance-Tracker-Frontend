@@ -12,6 +12,10 @@ const currencyFormatter = new Intl.NumberFormat(undefined, {
   currency: 'USD',
 })
 
+/** The currency symbol used by `formatCurrency` (e.g. "$") for input prefixes. */
+export const currencySymbol: string =
+  currencyFormatter.formatToParts(0).find((p) => p.type === 'currency')?.value ?? '$'
+
 /** Coerce a backend money value (string or number) to a number for display math. */
 export function toNumber(value: Money | null | undefined): number {
   if (value == null) return 0

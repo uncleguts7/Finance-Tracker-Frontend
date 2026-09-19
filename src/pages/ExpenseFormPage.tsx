@@ -29,10 +29,10 @@ export function ExpenseFormPage() {
 
   if (isEdit && expenseQuery.isLoading) {
     return (
-      <div className="mx-auto max-w-md rounded-lg border border-neutral-200 bg-white p-6">
+      <div className="mx-auto max-w-md rounded-xl border border-border bg-card p-6">
         <div className="flex items-center justify-center py-12">
           <span
-            className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-blue-600"
+            className="h-6 w-6 animate-spin rounded-full border-2 border-muted-foreground border-t-foreground"
             role="status"
             aria-label="Loading"
           />
@@ -47,11 +47,11 @@ export function ExpenseFormPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md rounded-lg border border-neutral-200 bg-white p-6">
-      <h1 className="text-xl font-semibold text-neutral-900">
+    <div className="mx-auto max-w-md rounded-xl border border-border bg-card p-6">
+      <h1 className="text-xl font-semibold tracking-tight">
         {isEdit ? 'Edit expense' : 'Add expense'}
       </h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <p className="mt-1 text-sm text-muted-foreground">
         {isEdit ? 'Update the expense details.' : 'Record a new expense for this month.'}
       </p>
       <div className="mt-6">

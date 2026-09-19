@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Search } from 'lucide-react'
 
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/toast'
+import { ExpenseFormModal } from '@/components/expenses/ExpenseFormModal'
 import { api } from '@/lib/api'
 import type { Category, Expense } from '@/lib/types'
 import { formatCurrency, toNumber } from '@/lib/utils'
@@ -23,6 +23,8 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const [pendingDelete, setPendingDelete] = useState<Expense | null>(null)
+  // Modal state: `editing` is undefined when closed, null = add mode, Expense = edit mode.
+  const [editing, setEditing] = useState<Expense | null | undefined>(undefined)
   const [filter, setFilter] = useState('')
 
   const categoryNameById = useMemo(() => {
@@ -45,8 +47,9 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
 
   function confirmDelete() {
     if (!pendingDelete) return
-    deleteMutation.mutate(pendingDelete.id)
-    setPendingDelete(null)
+    deleteMutation.mutate(pendingDelete.id, {
+      onSettled: () => setPendingDelete(null),
+    })
   }
 
   function categoryName(expense: Expense): string {
@@ -86,11 +89,12 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
               className="h-9 w-36 rounded-lg bg-secondary pl-8 pr-2 text-xs text-foreground transition-colors placeholder:text-muted-foreground focus:bg-accent focus:outline-none sm:w-48"
             />
           </div>
-          <Button asChild className="h-9 gap-1 rounded-lg px-3 text-[13px]">
-            <Link to="/expenses/new">
-              <Plus className="h-4 w-4" />
-              Add expense
-            </Link>
+          <Button
+            className="h-9 gap-1 rounded-lg px-3 text-[13px]"
+            onClick={() => setEditing(null)}
+          >
+            <Plus className="h-4 w-4" />
+            Add expense
           </Button>
         </div>
       </div>
@@ -124,6 +128,7 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
                     key={expense.id}
                     expense={expense}
                     categoryName={categoryName(expense)}
+                    onEdit={setEditing}
                     onDelete={setPendingDelete}
                   />
                 ))}
@@ -150,9 +155,15 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
         <EmptyState
           title="No expenses yet."
           ctaLabel="Add your first expense"
-          ctaHref="/expenses/new"
+          onCta={() => setEditing(null)}
         />
       )}
+
+      <ExpenseFormModal
+        open={editing !== undefined}
+        initialData={editing ?? undefined}
+        onClose={() => setEditing(undefined)}
+      />
 
       <ConfirmDialog
         open={pendingDelete !== null}
@@ -167,6 +178,7 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
         }
         confirmLabel="Delete"
         destructive
+        loading={deleteMutation.isPending}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}
       />
