@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Layout } from '@/components/layout/Layout'
 import { CategoriesPage } from '@/pages/CategoriesPage'
+import { ChangePasswordPage } from '@/pages/ChangePasswordPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { ExpenseFormPage } from '@/pages/ExpenseFormPage'
 import { GapsPage } from '@/pages/GapsPage'
@@ -30,6 +31,7 @@ export function AppRoutes() {
         <Route path="/expenses/new" element={<ExpenseFormPage />} />
         <Route path="/expenses/:id/edit" element={<ExpenseFormPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/settings/change-password" element={<ChangePasswordPage />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/gaps" element={<GapsPage />} />
       </Route>
