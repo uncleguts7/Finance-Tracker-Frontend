@@ -171,7 +171,7 @@ export function ExpenseList({ expenses, categories, monthId }: ExpenseListProps)
         description={
           pendingDelete ? (
             <>
-              Delete <strong>{formatCurrency(pendingDelete.amount)}</strong> —{' '}
+              Delete <strong>{formatCurrency(pendingDelete.amount)}</strong>{' '}
               {categoryName(pendingDelete)}? This can&apos;t be undone.
             </>
           ) : undefined
