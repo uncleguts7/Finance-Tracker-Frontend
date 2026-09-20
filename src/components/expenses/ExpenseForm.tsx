@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import type { Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ChevronDown, Lock } from 'lucide-react'
+import { Calendar, ChevronDown, Lock } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -74,6 +74,8 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
 
   // State for Create Category modal
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  // Ref for date input to programmatically open the picker
+  const dateInputRef = useRef<HTMLInputElement | null>(null)
   // Track the category ID before opening modal to detect new category after creation
   const categoriesBeforeCreateRef = useRef<Category[]>([])
   // Track if we're in the process of creating a category (to avoid interfering with normal category changes)
@@ -226,6 +228,10 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
   const selectedCategory = categories?.find((c) => c.id === selectedCategoryId)
   const isTypeDisabled = selectedCategory?.default_type === 'fixed'
 
+  // Date field register result (computed once per render)
+  const dateRegisterResult = form.register('date')
+  const { ref: dateRegisterRef, ...dateRegisterRest } = dateRegisterResult
+
   return (
     <>
       <form onSubmit={handleSave} noValidate className="flex flex-col gap-5">
@@ -272,17 +278,31 @@ export function ExpenseForm({ initialData, onSuccess }: ExpenseFormProps) {
           <Label htmlFor="date" className="text-[13px] font-medium">
             Date
           </Label>
-          <Input
-            id="date"
-            type="date"
-            aria-invalid={!!form.formState.errors.date}
-            className={cn(
-              fieldClasses,
-              'tabular-nums',
-              form.formState.errors.date && 'ring-1 ring-destructive',
-            )}
-            {...form.register('date')}
-          />
+          <div className="relative flex items-center">
+            <Input
+              ref={(el) => {
+                dateInputRef.current = el
+                dateRegisterRef?.(el)
+              }}
+              id="date"
+              type="date"
+              max={todayISO()}
+              onKeyDown={(e) => e.preventDefault()}
+              aria-invalid={!!form.formState.errors.date}
+              className={cn(
+                fieldClasses,
+                'tabular-nums pr-10',
+                form.formState.errors.date && 'ring-1 ring-destructive',
+                '[&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer',
+              )}
+              {...dateRegisterRest}
+            />
+            <Calendar
+              className="absolute right-3 h-4 w-4 text-muted-foreground cursor-pointer"
+              aria-hidden="true"
+              onClick={() => dateInputRef.current?.showPicker()}
+            />
+          </div>
           {form.formState.errors.date && (
             <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
           )}
