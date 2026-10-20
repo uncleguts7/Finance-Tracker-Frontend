@@ -181,6 +181,4 @@ middleware — currently fully open.
 
 ## 6. Status
 
-Design complete. Not yet built. Once built and tested, fold a condensed
-version of this into `PROJECT_MEMORY.md` §2 (data model), §3 (business rules),
-and §7 (current status).
+**Built and implemented.** Authentication (register/login/logout/user/profile/password change), Laravel Sanctum token scoping, per-user default-category seeding at registration, and per-user ownership enforcement are implemented and covered by tests. This design has been folded into `PROJECT_MEMORY.md` §2 (data model), §3 (business rules), and §7 (current status).

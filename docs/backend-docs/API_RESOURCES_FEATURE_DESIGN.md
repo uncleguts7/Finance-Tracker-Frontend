@@ -672,4 +672,4 @@ required. If/when a frontend is built, it should be designed against the
 
 ## 11. Status
 
-Design complete. Not yet built.
+**Built and implemented.** All five API resources (`UserResource`, `MonthResource`, `MonthSummaryResource`, `CategoryResource`, `ExpenseResource`) are implemented, the `data`-key response wrapping is live on all successful endpoints, `Month::summary()` is pure computation with the skipped-vs-normal shape decision moved to `MonthSummaryResource`, and all response-shape changes are covered by tests. See `PROJECT_MEMORY.md` §7 for the full built-status list.

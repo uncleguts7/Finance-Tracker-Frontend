@@ -347,4 +347,4 @@ with `ensure.month` applied (so the current month exists before we compute gaps)
 
 ## 12. Status
 
-Design complete. Not yet built.
+**Built and implemented.** All three gap endpoints (`GET /gaps`, `POST /gaps/backfill`, `POST /gaps/skip`), the `is_skipped`/`skipped_at` columns on `months`, the `Month::summary()` skipped-month guard, and the `MonthSummaryResource` skipped-vs-normal shape are implemented and covered by tests (93 Pest tests across the suite). See `PROJECT_MEMORY.md` §7 for the full built-status list.
